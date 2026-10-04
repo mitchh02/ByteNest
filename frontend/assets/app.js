@@ -147,7 +147,7 @@ function setSignupMode(value) {
   $('last-name').required = signup;
   $('password').autocomplete = signup ? 'new-password' : 'current-password';
   $('account-heading').textContent = signup ? 'Build your next chapter' : 'Welcome back';
-  $('account-description').textContent = signup ? 'Create your Six Degrees account.' : 'Sign in to explore your network.';
+  $('account-description').textContent = signup ? 'Create your GitConnectd account.' : 'Sign in to explore your network.';
   $('account-submit').textContent = signup ? 'Create account' : 'Sign in';
   $('toggle-account').textContent = signup ? 'Already have an account? Sign in' : 'Create an account';
   message('account-message');

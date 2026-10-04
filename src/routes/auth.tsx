@@ -7,10 +7,10 @@ export const Route = createFileRoute("/auth")({
   ssr: false,
   head: () => ({
     meta: [
-      { title: "Sign in — Degrees of GitHub" },
-      { name: "description", content: "Sign in or create an account to use Degrees of GitHub." },
-      { property: "og:title", content: "Sign in — Degrees of GitHub" },
-      { property: "og:description", content: "Sign in or create an account to use Degrees of GitHub." },
+      { title: "Sign in — GitConnectd" },
+      { name: "description", content: "Sign in or create an account to use GitConnectd." },
+      { property: "og:title", content: "Sign in — GitConnectd" },
+      { property: "og:description", content: "Sign in or create an account to use GitConnectd." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -75,7 +75,7 @@ function AuthPage() {
   return (
     <main className="min-h-screen grid-bg flex items-center justify-center px-6">
       <form onSubmit={submit} className="w-full max-w-sm space-y-4 rounded-xl border bg-card p-6 shadow-glow">
-        <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">// degrees of github</p>
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">// gitconnectd</p>
         <h1 className="font-display text-3xl font-bold">{mode === "in" ? "Sign in" : "Create account"}</h1>
 
         {mode === "up" && (

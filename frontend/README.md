@@ -1,4 +1,4 @@
-# Frontend
+# GitConnectd frontend
 
 FastAPI serves this browser frontend at `/` and `/auth`, with CSS and JavaScript
 under `/assets`. It calls the API on the same origin. No Node installation or

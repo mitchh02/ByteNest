@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .routes import auth, connections, intros, search
 
-app = FastAPI(title="Six Degrees Hiring API")
+app = FastAPI(title="GitConnectd API")
 
 # Let the frontend (running on a different port) call this API from the browser.
 # "*" allows any site, which is fine for a hackathon but should be locked down later.
