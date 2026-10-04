@@ -25,13 +25,12 @@ MAX_HOPS = 6        # the "six degrees" limit: longest chain of introductions we
 BATCH_SIZE = 1000   # max ids per SQL "IN (...)" list, so queries stay a reasonable size
 
 def _get_data_from_web():
-  time.sleep(0.5)
+  pass
 
 def _edges_touching(user_ids):
     """Fetch every connection where at least one of the two people is in user_ids."""
     import random # simulating cache misses
-    import time
-
+    
     CACHE_MISS_PROB = 0.05
   
     ids = list(user_ids)
