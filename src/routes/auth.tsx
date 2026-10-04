@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { z } from "zod";
-import { supabase } from "@/integrations/supabase/client";
+import { getMe, signIn, signUp } from "@/lib/api";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -18,64 +18,91 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
-const schema = z.object({
+const signInSchema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
   password: z.string().min(6, "Password must be at least 6 characters").max(72),
+});
+
+// Creating an account also needs a name (the users table requires one)
+const signUpSchema = signInSchema.extend({
+  first_name: z.string().trim().min(1, "Enter your first name").max(100),
+  last_name: z.string().trim().min(1, "Enter your last name").max(100),
 });
 
 function AuthPage() {
   const navigate = useNavigate();
   const [mode, setMode] = useState<"in" | "up">("in");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
 
+  // Already signed in? Skip this page.
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/", replace: true });
-    });
-    const { data } = supabase.auth.onAuthStateChange((_e, s) => {
-      if (s) navigate({ to: "/", replace: true });
-    });
-    return () => data.subscription.unsubscribe();
+    getMe()
+      .then((user) => { if (user) navigate({ to: "/", replace: true }); })
+      .catch(() => {});   // backend unreachable: stay here; submitting will show the error
   }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setMsg(null);
-    const parsed = schema.safeParse({ email, password });
+
+    const parsed = mode === "in"
+      ? signInSchema.safeParse({ email, password })
+      : signUpSchema.safeParse({ email, password, first_name: firstName, last_name: lastName });
     if (!parsed.success) return setMsg({ ok: false, text: parsed.error.issues[0]!.message });
+
     setBusy(true);
-    if (mode === "in") {
-      const { error } = await supabase.auth.signInWithPassword(parsed.data);
-      if (error) setMsg({ ok: false, text: error.message });
-    } else {
-      const { data, error } = await supabase.auth.signUp({
-        ...parsed.data,
-        options: { emailRedirectTo: window.location.origin },
-      });
-      if (error) setMsg({ ok: false, text: error.message });
-      else if (!data.session) setMsg({ ok: true, text: "Account created! Check your email to confirm, then sign in." });
+    try {
+      if (mode === "in") {
+        await signIn(parsed.data.email, parsed.data.password);
+      } else {
+        await signUp(parsed.data as z.infer<typeof signUpSchema>);
+      }
+      navigate({ to: "/", replace: true });
+    } catch (err) {
+      setMsg({ ok: false, text: err instanceof Error ? err.message : "Something went wrong" });
+    } finally {
+      setBusy(false);
     }
-    setBusy(false);
   };
+
+  const input = "w-full rounded-md border bg-input px-3 py-2 font-mono outline-none focus:border-primary";
 
   return (
     <main className="min-h-screen grid-bg flex items-center justify-center px-6">
       <form onSubmit={submit} className="w-full max-w-sm space-y-4 rounded-xl border bg-card p-6 shadow-glow">
         <p className="font-mono text-xs uppercase tracking-[0.3em] text-primary">// degrees of github</p>
         <h1 className="font-display text-3xl font-bold">{mode === "in" ? "Sign in" : "Create account"}</h1>
+
+        {mode === "up" && (
+          <div className="grid grid-cols-2 gap-3">
+            <label className="block">
+              <span className="mb-1 block font-mono text-xs text-muted-foreground">First name</span>
+              <input value={firstName} onChange={(e) => setFirstName(e.target.value)}
+                autoComplete="given-name" className={input} />
+            </label>
+            <label className="block">
+              <span className="mb-1 block font-mono text-xs text-muted-foreground">Last name</span>
+              <input value={lastName} onChange={(e) => setLastName(e.target.value)}
+                autoComplete="family-name" className={input} />
+            </label>
+          </div>
+        )}
+
         <label className="block">
           <span className="mb-1 block font-mono text-xs text-muted-foreground">Email</span>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email"
-            className="w-full rounded-md border bg-input px-3 py-2 font-mono outline-none focus:border-primary" />
+            className={input} />
         </label>
         <label className="block">
           <span className="mb-1 block font-mono text-xs text-muted-foreground">Password</span>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
             autoComplete={mode === "in" ? "current-password" : "new-password"}
-            className="w-full rounded-md border bg-input px-3 py-2 font-mono outline-none focus:border-primary" />
+            className={input} />
         </label>
         {msg && (
           <p className={`rounded-md p-3 text-sm ${msg.ok ? "bg-primary/10 text-primary" : "bg-destructive/10 text-destructive"}`}>{msg.text}</p>
