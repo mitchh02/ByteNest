@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Find your next role through people you know.">
+  <title>Six Degrees — Find your way in</title>
+  <link rel="stylesheet" href="/assets/style.css">
+  <script type="module" src="/assets/app.js"></script>
+</head>
+<body>
+  <header><a class="brand" href="/">six<span>degrees</span><span class="brand-dot">●</span></a><nav><a href="/docs">API docs</a><button id="account-button" class="secondary">Sign in</button></nav></header>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">YOUR NETWORK. YOUR NEXT CHAPTER.</p>
+      <h1>Your next opportunity<br>is closer than <em>you think.</em></h1>
+      <p class="subtitle">Search for an open role or a hiring manager you know by name. Follow a trusted path to them, in six introductions or fewer.</p>
+      <div class="network" aria-hidden="true"><span>You</span><i></i><span>A connection</span><i></i><span>Your next role ↗</span></div>
+    </section>
+    <section class="search-panel" aria-labelledby="search-heading">
+      <div class="section-heading"><div><p class="eyebrow">MAKE THE FIRST CONNECTION</p><h2 id="search-heading">Find your way in</h2></div><span class="badge">Up to 6 hops</span></div>
+      <label class="search-mode">Search by<select id="search-type"><option value="role">Job role</option><option value="manager">Hiring manager name</option></select></label>
+      <form id="search-form">
+        <label id="seeker-field">Your user ID<input id="seeker" type="number" min="1" step="1" required placeholder="e.g. 1"><small>Use a seeded user ID to explore the demo network.</small></label>
+        <label class="query-field"><span id="query-label">What role are you looking for?</span><input id="query" type="search" required maxlength="201" placeholder="Backend engineer, designer…" value="engineer"></label>
+        <button id="search-button" type="submit">Find connections <span>↗</span></button>
+      </form>
+      <p id="search-message" class="message" role="status" aria-live="polite"></p>
+    </section>
+    <section id="results-section" hidden><div class="section-heading"><h2>Your paths to opportunity</h2><span id="results-count" class="badge"></span></div><div id="results"></div></section>
+    <section id="inbox-section" hidden><div class="section-heading"><h2>Introductions waiting for you</h2><button id="refresh-inbox" class="secondary">Refresh</button></div><p id="inbox-message" class="message" role="status"></p><div id="inbox"></div></section>
+  </main>
+  <footer><span>Good opportunities start with a conversation.</span><span>Six Degrees Hiring</span></footer>
+  <dialog id="account-dialog">
+    <form id="account-form">
+      <div class="section-heading"><h2 id="account-heading">Welcome back</h2><button id="close-account" type="button" class="secondary" aria-label="Close">✕</button></div>
+      <p id="account-description">Sign in to explore your network.</p>
+      <div id="name-fields" hidden><label>First name<input id="first-name" autocomplete="given-name" maxlength="100"></label><label>Last name<input id="last-name" autocomplete="family-name" maxlength="100"></label></div>
+      <label>Email<input id="email" type="email" autocomplete="email" maxlength="255" required></label>
+      <label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" maxlength="72" required></label>
+      <p id="account-message" class="message" role="status"></p>
+      <button id="account-submit" type="submit">Sign in</button>
+      <button id="toggle-account" type="button" class="secondary">Create an account</button>
+    </form>
+  </dialog>
+</body>
+</html>
