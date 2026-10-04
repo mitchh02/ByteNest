@@ -3,3 +3,5 @@ uvicorn[standard]
 pymysql
 networkx
 python-dotenv
+pytest
+httpx
