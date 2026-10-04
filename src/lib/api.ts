@@ -42,7 +42,7 @@ export type PathResult = {
   score: number;           // 0 to 1, higher is stronger
   reasons: string[];       // why each pair knows each other, one per hop
   people: PathPerson[];    // same order as path
-  job: { id: number; title: string; company: string; posted_by: number };
+  job: { id: number; title: string; company: string; posted_by: number } | null;
 };
 
 export type IntroHop = {
@@ -168,8 +168,8 @@ export function signOut() {
 // Search and intros
 // ---------------------------------------------------------------------------
 
-export function searchPaths(seekerId: number, query: string, limit = 3) {
-  const params = new URLSearchParams({ seeker_id: String(seekerId), q: query, limit: String(limit) });
+export function searchPaths(seekerId: number, query: string, limit = 3, searchType: "role" | "manager" = "role") {
+  const params = new URLSearchParams({ seeker_id: String(seekerId), q: query, limit: String(limit), search_type: searchType });
   return request<{ query: string; results: PathResult[] }>(`/search?${params}`);
 }
 

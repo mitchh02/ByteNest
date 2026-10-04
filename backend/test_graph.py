@@ -9,6 +9,8 @@ The first group builds tiny graphs by hand, so it needs no database.
 The last test uses your real database and is skipped if it can't connect.
 """
 import math
+import random
+from unittest.mock import Mock
 
 import networkx as nx
 import pytest
@@ -118,6 +120,91 @@ def test_seeker_is_not_their_own_target():
     G = make_graph([(1, 2, 0.9)])
     stopped = graph.hop_limited_dijkstra(G, 1, max_hops=6, targets=[1, 2], limit=1)
     assert 2 in stopped   # the search didn't stop early just because it started on 1
+
+
+def test_bidirectional_keeps_searching_after_first_meeting():
+    G = make_graph([(1, 4, .1), (1, 2, .9), (2, 3, .9), (3, 4, .9)])
+    assert graph.bidirectional_dijkstra(G, 1, 4) == [1, 2, 3, 4]
+
+
+def test_bidirectional_caps_final_path_and_keeps_shorter_alternatives():
+    G = make_graph([(i, i + 1, .95) for i in range(7)] + [(0, 8, .3), (8, 7, .3)])
+    assert graph.bidirectional_dijkstra(G, 0, 7, 6) == [0, 8, 7]
+    assert graph.bidirectional_dijkstra(G, 0, 7, 7) == list(range(8))
+    assert graph.bidirectional_dijkstra(G, 0, 6, 6) == list(range(7))
+    assert graph.bidirectional_dijkstra(G, 0, 7, 1) is None
+
+
+def test_bidirectional_missing_isolated_and_same_person():
+    G = make_graph([(1, 2, .9)])
+    G.add_node(3)
+    assert graph.bidirectional_dijkstra(G, 1, 3) is None
+    assert graph.bidirectional_dijkstra(G, 1, 99) is None
+    assert graph.bidirectional_dijkstra(G, 3, 3, 0) == [3]
+    assert graph.bidirectional_dijkstra(G, 1, 2, 0) is None
+    with pytest.raises(ValueError):
+        graph.bidirectional_dijkstra(G, 1, 2, -1)
+
+
+@pytest.mark.parametrize('directed', [False, True])
+def test_bidirectional_matches_exhaustive_simple_paths(directed):
+    rng = random.Random(42)
+    for _ in range(10):
+        G = nx.gnp_random_graph(7, .35, seed=rng, directed=directed)
+        for a, b in G.edges:
+            strength = rng.choice([1.0, .95, .6, .1])
+            G[a][b].update(strength=strength, cost=-math.log(strength))
+        for hops in range(1, 7):
+            for target in range(1, 7):
+                candidates = list(nx.all_simple_paths(G, 0, target, cutoff=hops))
+                path = graph.bidirectional_dijkstra(G, 0, target, hops)
+                if not candidates:
+                    assert path is None
+                    continue
+                assert path[0] == 0 and path[-1] == target
+                assert len(path) - 1 <= hops
+                assert len(path) == len(set(path))
+                assert graph.path_score(G, path) == pytest.approx(
+                    max(graph.path_score(G, p) for p in candidates))
+
+
+def test_single_target_best_paths_uses_bidirectional(monkeypatch):
+    G = make_graph([(1, 2, .9), (2, 3, .8)])
+    monkeypatch.setattr(graph, 'load_neighborhood', lambda *_: G)
+    monkeypatch.setattr(graph, 'get_people', lambda ids: {i: {'id': i} for i in ids})
+    pair_search = Mock(wraps=graph.bidirectional_dijkstra)
+    monkeypatch.setattr(graph, 'bidirectional_dijkstra', pair_search)
+    result = graph.best_paths(1, [1, 3, 3])
+    pair_search.assert_called_once_with(G, 1, 3, graph.MAX_HOPS)
+    assert result[0]['path'] == [1, 2, 3]
+    assert result[0]['score'] == pytest.approx(.72)
+    assert result[0]['reasons'] == ['1-2', '2-3']
+
+
+def test_multi_target_best_paths_shares_one_search(monkeypatch):
+    G = make_graph([(1, 2, .9), (2, 3, .8)])
+    monkeypatch.setattr(graph, 'load_neighborhood', lambda *_: G)
+    monkeypatch.setattr(graph, 'get_people', lambda ids: {i: {'id': i} for i in ids})
+    pair_search = Mock()
+    monkeypatch.setattr(graph, 'bidirectional_dijkstra', pair_search)
+    assert graph.best_paths(1, [2, 3], limit=1)[0]['target_id'] == 2
+    pair_search.assert_not_called()
+
+
+def test_overlapping_loaded_neighborhoods_keep_six_hop_detour(monkeypatch):
+    # The weak shortcut makes node 2 part of the seeker's loaded neighborhood.
+    # The target's rings must still traverse it to fetch edge 3--6.
+    G = make_graph([(0, 1, .1), (1, 2, .1), (2, 3, .9), (2, 7, .9),
+                    (0, 4, .9), (4, 5, .9), (5, 6, .9), (6, 3, .9)])
+    queried = set()
+    def edges_touching(ids):
+        assert not queried.intersection(ids)
+        queried.update(ids)
+        return [{'user_a_id': a, 'user_b_id': b, 'strength': data['strength'], 'context': ''}
+                for a, b, data in G.edges(data=True) if a in ids or b in ids]
+    monkeypatch.setattr(graph, '_edges_touching', edges_touching)
+    loaded = graph.load_neighborhood(0, [7])
+    assert graph.bidirectional_dijkstra(loaded, 0, 7) == [0, 4, 5, 6, 3, 2, 7]
 
 
 # ---------------------------------------------------------------------------
