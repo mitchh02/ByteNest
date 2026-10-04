@@ -1,4 +1,6 @@
 import os
+from contextlib import contextmanager
+
 import pymysql
 from dotenv import load_dotenv
 
@@ -26,6 +28,30 @@ def query(sql, params=None):
         with conn.cursor() as cur:
             cur.execute(sql, params or ())
             return cur.fetchall()
+    finally:
+        conn.close()
+
+
+@contextmanager
+def transaction():
+    """
+    Run several statements as one unit: all are saved, or none are.
+
+        with db.transaction() as cur:
+            cur.execute("INSERT ...", (...))
+            cur.execute("INSERT ...", (...))
+
+    If anything inside raises an error, every change in the block is undone.
+    """
+    conn = connect()
+    try:
+        conn.begin()
+        with conn.cursor() as cur:
+            yield cur
+        conn.commit()
+    except BaseException:
+        conn.rollback()
+        raise
     finally:
         conn.close()
 

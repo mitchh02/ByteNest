@@ -37,6 +37,28 @@
       </form>
       <p id="search-message" class="message" role="status" aria-live="polite"></p>
     </section>
+    <section id="connections-section" class="panel" hidden aria-labelledby="connections-heading">
+      <div class="section-heading"><div><p class="eyebrow">WHO YOU KNOW</p><h2 id="connections-heading">Your connections</h2></div><span id="connections-count" class="badge"></span></div>
+      <p class="subtle">Add people you know. The closer you are, the stronger the paths through them.</p>
+      <form id="connection-form">
+        <label>Find a person<input id="connection-name" type="search" maxlength="201" required placeholder="First or last name…"></label>
+        <button id="lookup-connection" type="button" class="secondary">Find</button>
+        <label id="connection-matches-field" hidden>Choose a person<select id="connection-matches"></select></label>
+        <div id="connection-details" hidden>
+          <label>How well do you know them?<select id="closeness">
+            <option value="5">Close: we talk often</option>
+            <option value="4" selected>Worked together</option>
+            <option value="3">Know them well</option>
+            <option value="2">Acquaintance</option>
+            <option value="1">Met once</option>
+          </select></label>
+          <label>How do you know them? <span class="optional">optional</span><input id="connection-context" maxlength="255" placeholder="Worked together at Acme"></label>
+          <button id="add-connection" type="submit">Add connection</button>
+        </div>
+      </form>
+      <p id="connection-message" class="message" role="status" aria-live="polite"></p>
+      <ul id="connections" class="connection-list"></ul>
+    </section>
     <section id="results-section" hidden><div class="section-heading"><h2>Your paths to opportunity</h2><span id="results-count" class="badge"></span></div><div id="results"></div></section>
     <section id="inbox-section" hidden><div class="section-heading"><h2>Introductions waiting for you</h2><button id="refresh-inbox" class="secondary">Refresh</button></div><p id="inbox-message" class="message" role="status"></p><div id="inbox"></div></section>
   </main>
@@ -48,6 +70,16 @@
       <div id="name-fields" hidden><label>First name<input id="first-name" autocomplete="given-name" maxlength="100"></label><label>Last name<input id="last-name" autocomplete="family-name" maxlength="100"></label></div>
       <label>Email<input id="email" type="email" autocomplete="email" maxlength="255" required></label>
       <label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" maxlength="72" required></label>
+      <fieldset id="profile-fields" hidden>
+        <legend>About you <span>optional</span></legend>
+        <div class="field-row"><label>Job title<input id="job-title" autocomplete="organization-title" maxlength="150" placeholder="Frontend engineer"></label><label>Company<input id="company" autocomplete="organization" maxlength="150"></label></div>
+        <label>Location<input id="location" autocomplete="address-level2" maxlength="150" placeholder="Kansas City, MO"></label>
+        <div class="field-row"><label>Phone<input id="phone" type="tel" autocomplete="tel" maxlength="25" placeholder="+1 555 123 4567"></label><label>GitHub username<input id="github" autocomplete="off" maxlength="40" pattern="@?[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}" placeholder="octocat"></label></div>
+        <label>Short bio<textarea id="bio" maxlength="1000" rows="3" placeholder="What you work on and what you're looking for"></textarea></label>
+        <label class="checkbox"><input id="is-hiring" type="checkbox"> I'm hiring</label>
+        <label id="open-role-field" hidden>Open role<input id="open-role" maxlength="150" placeholder="Backend engineer"><small>Job seekers searching for this role can find a path to you. Needs your company.</small></label>
+        <small>Your phone and email stay private. Your GitHub username is shown on your profile.</small>
+      </fieldset>
       <p id="account-message" class="message" role="status"></p>
       <button id="account-submit" type="submit">Sign in</button>
       <button id="toggle-account" type="button" class="secondary">Create an account</button>

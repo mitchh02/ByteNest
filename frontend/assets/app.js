@@ -4,23 +4,26 @@ let user = null;
 let signup = false;
 let searchVersion = 0;
 let lookupVersion = 0;
+let connectionLookupVersion = 0;
+const CLOSENESS_LABELS = { 5: 'Close', 4: 'Worked together', 3: 'Know well', 2: 'Acquaintance', 1: 'Met once' };
 
 function message(id, text = '', error = false) {
   $(id).textContent = text;
   $(id).classList.toggle('error', error);
 }
 
-async function request(path, body) {
+async function request(path, body, method = body === undefined ? 'GET' : 'POST') {
   const headers = { 'Content-Type': 'application/json' };
   const token = localStorage.getItem(TOKEN_KEY);
   if (token) headers.Authorization = `Bearer ${token}`;
   let response;
   try {
-    response = await fetch(path, { method: body === undefined ? 'GET' : 'POST', headers,
+    response = await fetch(path, { method, headers,
       ...(body === undefined ? {} : { body: JSON.stringify(body) }) });
   } catch {
     throw new Error('Cannot reach the server. Please try again.');
   }
+  if (response.status === 204) return null;   // success with no body (e.g. a delete)
   const data = await response.json().catch(() => null);
   if (!response.ok) {
     if (response.status === 401 && path !== '/auth/login') {
@@ -56,7 +59,11 @@ function setUser(value) {
   $('account-button').textContent = value ? `${value.first_name} · Sign out` : 'Sign in';
   $('inbox-section').hidden = !value;
   $('inbox').replaceChildren();
-  if (value) loadInbox();
+  $('connections-section').hidden = !value;
+  $('connections').replaceChildren();
+  message('connection-message');
+  resetConnectionForm();
+  if (value) { loadInbox(); loadConnections(); }
 }
 
 function resetSeekerLookup() {
@@ -131,9 +138,11 @@ $('account-button').addEventListener('click', () => {
   } else $('account-dialog').showModal();
 });
 $('close-account').addEventListener('click', () => $('account-dialog').close());
-$('toggle-account').addEventListener('click', () => {
-  signup = !signup;
+$('toggle-account').addEventListener('click', () => setSignupMode(!signup));
+function setSignupMode(value) {
+  signup = value;
   $('name-fields').hidden = !signup;
+  $('profile-fields').hidden = !signup;
   $('first-name').required = signup;
   $('last-name').required = signup;
   $('password').autocomplete = signup ? 'new-password' : 'current-password';
@@ -142,6 +151,9 @@ $('toggle-account').addEventListener('click', () => {
   $('account-submit').textContent = signup ? 'Create account' : 'Sign in';
   $('toggle-account').textContent = signup ? 'Already have an account? Sign in' : 'Create an account';
   message('account-message');
+}
+$('is-hiring').addEventListener('change', () => {
+  $('open-role-field').hidden = !$('is-hiring').checked;
 });
 $('account-form').addEventListener('submit', async (event) => {
   event.preventDefault();
@@ -150,13 +162,32 @@ $('account-form').addEventListener('submit', async (event) => {
   message('account-message');
   try {
     const body = { email: $('email').value.trim(), password: $('password').value };
-    if (signup) Object.assign(body, { first_name: $('first-name').value.trim(), last_name: $('last-name').value.trim() });
-    const data = await request(signup ? '/auth/signup' : '/auth/login', body);
+    const creating = signup;
+    if (creating) {
+      const hiring = $('is-hiring').checked;
+      Object.assign(body, {
+        first_name: $('first-name').value.trim(), last_name: $('last-name').value.trim(),
+        job_title: $('job-title').value.trim() || null, company: $('company').value.trim() || null,
+        location: $('location').value.trim() || null, bio: $('bio').value.trim() || null,
+        phone: $('phone').value.trim() || null, github: $('github').value.trim() || null,
+        is_hiring: hiring, open_role: hiring ? $('open-role').value.trim() || null : null,
+      });
+      if (body.open_role && !body.company) throw new Error('Enter your company to post an open role.');
+    }
+    const data = await request(creating ? '/auth/signup' : '/auth/login', body);
     localStorage.setItem(TOKEN_KEY, data.token);
     setUser(data.user);
-    $('password').value = '';
+    $('account-form').reset();
+    $('open-role-field').hidden = true;
+    if (creating) setSignupMode(false);   // next time the dialog opens, it's on sign in
     $('account-dialog').close();
-    message('search-message', `Welcome, ${user.first_name}. Search for a role or hiring manager to explore your connections.`);
+    if (creating) {
+      message('connection-message', `Welcome, ${user.first_name}! Add a few people you know so we can find paths for you.`);
+      $('connections-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      $('connection-name').focus({ preventScroll: true });
+    } else {
+      message('search-message', `Welcome, ${user.first_name}. Search for a role or hiring manager to explore your connections.`);
+    }
   } catch (error) { message('account-message', error.message, true); }
   finally { $('account-submit').disabled = false; $('toggle-account').disabled = false; }
 });
@@ -243,6 +274,110 @@ $('search-form').addEventListener('submit', async (event) => {
   } catch (error) {
     if (version === searchVersion) message('search-message', error.message, true);
   } finally { $('search-button').disabled = false; }
+});
+
+// ---------------------------------------------------------------------------
+// Your connections: find people you know and add them
+// ---------------------------------------------------------------------------
+
+function resetConnectionForm() {
+  connectionLookupVersion++;
+  $('connection-matches').replaceChildren();
+  $('connection-matches-field').hidden = true;
+  $('connection-details').hidden = true;
+}
+
+async function loadConnections() {
+  if (!user) return;
+  const owner = user.id;
+  try {
+    const people = await request('/me/connections');
+    if (user?.id !== owner) return;
+    $('connections-count').textContent = `${people.length} ${people.length === 1 ? 'person' : 'people'}`;
+    if (!people.length && !$('connection-message').textContent) {
+      message('connection-message', 'You haven\'t added anyone yet. Add a few people you know so we can find paths for you.');
+    }
+    $('connections').replaceChildren(...people.map((person) => {
+      const item = element('li');
+      const who = element('div');
+      who.append(element('strong', `${person.first_name} ${person.last_name}`),
+        element('small', [person.job_title, person.company, person.context].filter(Boolean).join(' · ')));
+      const remove = element('button', 'Remove', 'secondary');
+      remove.setAttribute('aria-label', `Remove ${person.first_name} ${person.last_name}`);
+      remove.addEventListener('click', async () => {
+        remove.disabled = true;
+        try {
+          await request(`/me/connections/${person.id}`, undefined, 'DELETE');
+          message('connection-message', `Removed ${person.first_name} ${person.last_name}.`);
+          clearResults();
+          await loadConnections();
+        } catch (error) {
+          message('connection-message', error.message, true);
+          remove.disabled = false;
+        }
+      });
+      item.append(who, element('span', CLOSENESS_LABELS[person.closeness] ?? '', 'badge'), remove);
+      return item;
+    }));
+  } catch (error) { if (user?.id === owner) message('connection-message', error.message, true); }
+}
+
+async function lookupConnection() {
+  const name = $('connection-name').value.trim();
+  if (!name) { message('connection-message', 'Enter a name first.', true); return; }
+  resetConnectionForm();
+  const version = connectionLookupVersion;
+  $('lookup-connection').disabled = true;
+  message('connection-message', 'Looking up people…');
+  try {
+    const data = await request(`/users/lookup?${new URLSearchParams({ q: name })}`);
+    if (version !== connectionLookupVersion) return;
+    const people = data.users.filter((person) => person.id !== user?.id);   // not yourself
+    if (!people.length) { message('connection-message', 'No one found. Try a first or last name.', true); return; }
+    const options = [new Option('Select a person…', '')];
+    for (const person of people) {
+      const details = [person.job_title, person.company, person.location].filter(Boolean).join(' · ');
+      options.push(new Option(`${person.first_name} ${person.last_name}${details ? ' — ' + details : ''}`, person.id));
+    }
+    $('connection-matches').replaceChildren(...options);
+    $('connection-matches-field').hidden = false;
+    if (people.length === 1) {
+      $('connection-matches').value = people[0].id;
+      $('connection-details').hidden = false;
+    }
+    message('connection-message', people.length === 1 ? '1 person found.' : `${people.length} people found. Choose the one you know.`);
+  } catch (error) {
+    if (version === connectionLookupVersion) message('connection-message', error.message, true);
+  } finally { $('lookup-connection').disabled = false; }
+}
+$('lookup-connection').addEventListener('click', lookupConnection);
+$('connection-name').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') { event.preventDefault(); lookupConnection(); }
+});
+$('connection-name').addEventListener('input', resetConnectionForm);
+$('connection-matches').addEventListener('change', () => {
+  $('connection-details').hidden = !$('connection-matches').value;
+});
+
+$('connection-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const otherId = Number($('connection-matches').value);
+  if (!otherId) { message('connection-message', 'Choose a person first.', true); return; }
+  $('add-connection').disabled = true;
+  try {
+    const added = await request('/me/connections', {
+      user_id: otherId,
+      closeness: Number($('closeness').value),
+      context: $('connection-context').value.trim() || null,
+    });
+    message('connection-message', `Added ${added.first_name} ${added.last_name}. Search above to see your paths.`);
+    $('connection-form').reset();
+    resetConnectionForm();
+    clearResults();
+    await loadConnections();
+    $('connection-name').focus();
+  } catch (error) { message('connection-message', error.message, true); }
+  finally { $('add-connection').disabled = false; }
 });
 
 async function loadInbox() {
