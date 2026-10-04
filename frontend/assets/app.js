@@ -92,7 +92,10 @@ $('seeker-name').addEventListener('input', () => {
   clearResults();
 });
 $('seeker').addEventListener('input', clearResults);
-$('seeker-matches').addEventListener('change', clearResults);
+$('seeker-matches').addEventListener('change', () => {
+  clearResults();
+  if ($('query').value.trim()) runSearch({ live: true });
+});
 
 async function lookupSeeker() {
   const name = $('seeker-name').value.trim();
@@ -192,18 +195,177 @@ $('account-form').addEventListener('submit', async (event) => {
   finally { $('account-submit').disabled = false; $('toggle-account').disabled = false; }
 });
 
-function renderResult(result, seekerId, searchType) {
+// ---------------------------------------------------------------------------
+// Search: suggestions as you type, live results, and the result cards
+// ---------------------------------------------------------------------------
+
+let suggestVersion = 0;
+let suggestTimer = null;
+let liveTimer = null;
+let pickedManager = null;     // { id, name } after choosing a person from the suggestions
+let activeOption = -1;        // keyboard-highlighted suggestion
+let suggestionItems = [];     // [{ kind: 'role' | 'manager', value, node }]
+const MIN_LIVE_CHARS = 2;
+
+function searchType() { return $('search-type').value; }
+
+function currentSeekerId() {
+  const id = user?.id ?? Number($('seeker-mode').value === 'name' ? $('seeker-matches').value : $('seeker').value);
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+/** Text with the part matching `query` wrapped in <mark>, built without innerHTML. */
+function highlighted(text, query) {
+  const span = element('span');
+  const at = text.toLowerCase().indexOf(query.toLowerCase());
+  if (!query || at < 0) { span.textContent = text; return span; }
+  span.append(text.slice(0, at), element('mark', text.slice(at, at + query.length)), text.slice(at + query.length));
+  return span;
+}
+
+function closeSuggestions() {
+  suggestVersion++;
+  $('suggestions').hidden = true;
+  $('suggestions').replaceChildren();
+  $('query').setAttribute('aria-expanded', 'false');
+  $('query').removeAttribute('aria-activedescendant');
+  suggestionItems = [];
+  activeOption = -1;
+}
+
+function setActiveOption(index) {
+  suggestionItems.forEach((item, i) => item.node.setAttribute('aria-selected', String(i === index)));
+  activeOption = index;
+  if (index >= 0) {
+    $('query').setAttribute('aria-activedescendant', suggestionItems[index].node.id);
+    suggestionItems[index].node.scrollIntoView({ block: 'nearest' });
+  } else $('query').removeAttribute('aria-activedescendant');
+}
+
+function renderSuggestions(data, query) {
+  const list = $('suggestions');
+  const type = searchType();
+  const groups = [];
+  if (type !== 'manager' && data.roles.length) groups.push(['Roles', 'role', data.roles]);
+  if (type !== 'role' && data.managers.length) groups.push(['People hiring', 'manager', data.managers]);
+  suggestionItems = [];
+  const nodes = [];
+  for (const [label, kind, items] of groups) {
+    nodes.push(element('li', label, 'suggestion-group'));
+    nodes.at(-1).setAttribute('role', 'presentation');
+    for (const item of items) {
+      const option = element('li', undefined, 'suggestion');
+      option.id = `suggestion-${suggestionItems.length}`;
+      option.setAttribute('role', 'option');
+      option.setAttribute('aria-selected', 'false');
+      if (kind === 'role') {
+        option.append(highlighted(item.title, query),
+          element('small', `${item.openings} open ${item.openings === 1 ? 'role' : 'roles'}`));
+      } else {
+        const name = `${item.first_name} ${item.last_name}`;
+        const details = [item.job_title, item.company].filter(Boolean).join(' · ');
+        option.append(highlighted(name, query),
+          element('small', [details, item.open_roles ? `${item.open_roles} open ${item.open_roles === 1 ? 'role' : 'roles'}` : 'Hiring'].filter(Boolean).join(' · ')));
+      }
+      const entry = { kind, value: item, node: option };
+      // mousedown (not click) so the input doesn't lose focus and close the list first
+      option.addEventListener('mousedown', (event) => { event.preventDefault(); chooseSuggestion(entry); });
+      suggestionItems.push(entry);
+      nodes.push(option);
+    }
+  }
+  if (!suggestionItems.length) { closeSuggestions(); return; }
+  list.replaceChildren(...nodes);
+  list.hidden = false;
+  $('query').setAttribute('aria-expanded', 'true');
+  setActiveOption(-1);
+}
+
+async function loadSuggestions() {
+  const query = $('query').value.trim();
+  if (!query) { closeSuggestions(); return; }
+  const version = ++suggestVersion;
+  try {
+    const data = await request(`/search/suggest?${new URLSearchParams({ q: query, limit: '6' })}`);
+    if (version !== suggestVersion || document.activeElement !== $('query')) return;
+    renderSuggestions(data, query);
+  } catch { /* suggestions are optional; the search itself still works */ }
+}
+
+function chooseSuggestion(entry) {
+  closeSuggestions();
+  clearTimeout(liveTimer);
+  if (entry.kind === 'role') {
+    pickedManager = null;
+    $('query').value = entry.value.title;
+    runSearch({ type: 'role' });
+  } else {
+    const name = `${entry.value.first_name} ${entry.value.last_name}`;
+    pickedManager = { id: entry.value.id, name };
+    $('query').value = name;
+    runSearch({ managerId: entry.value.id });
+  }
+}
+
+$('query').addEventListener('input', () => {
+  pickedManager = null;
+  clearTimeout(suggestTimer);
+  clearTimeout(liveTimer);
+  suggestTimer = setTimeout(loadSuggestions, 120);
+  const query = $('query').value.trim();
+  if (query.length >= MIN_LIVE_CHARS && currentSeekerId()) {
+    liveTimer = setTimeout(() => runSearch({ live: true }), 450);   // results follow your typing
+  } else if (!query) { clearResults(); message('search-message'); }
+});
+
+$('query').addEventListener('keydown', (event) => {
+  const open = !$('suggestions').hidden && suggestionItems.length;
+  if (event.key === 'ArrowDown' && open) {
+    event.preventDefault();
+    setActiveOption((activeOption + 1) % suggestionItems.length);
+  } else if (event.key === 'ArrowUp' && open) {
+    event.preventDefault();
+    setActiveOption(activeOption <= 0 ? suggestionItems.length - 1 : activeOption - 1);
+  } else if (event.key === 'Enter' && open && activeOption >= 0) {
+    event.preventDefault();
+    chooseSuggestion(suggestionItems[activeOption]);
+  } else if (event.key === 'Escape' && open) {
+    event.preventDefault();
+    closeSuggestions();
+  }
+});
+$('query').addEventListener('focus', () => { if ($('query').value.trim()) loadSuggestions(); });
+$('query').addEventListener('blur', closeSuggestions);
+
+// Filter chips: All / Roles / People
+for (const chip of document.querySelectorAll('.chip')) {
+  chip.addEventListener('click', () => {
+    for (const other of document.querySelectorAll('.chip')) other.setAttribute('aria-checked', String(other === chip));
+    $('search-type').value = chip.dataset.type;
+    pickedManager = null;
+    if ($('query').value.trim() && currentSeekerId()) runSearch({});
+    else clearResults();
+  });
+}
+
+function renderResult(result, seekerId) {
   const card = element('article', undefined, 'result');
   const manager = result.people[result.people.length - 1];
   const managerName = `${manager.first_name} ${manager.last_name}`;
-  if (searchType === 'manager') {
+  const match = result.match || [];
+  // Lead with the person when their name is what matched (or they have no open job)
+  if (!result.job || (match.includes('name') && !match.includes('role'))) {
     card.append(element('h3', managerName),
       element('p', [manager.job_title, manager.company].filter(Boolean).join(' · ') || 'Hiring manager', 'company'));
     if (result.job) card.append(element('p', `Open role: ${result.job.title}`, 'company'));
   } else {
     card.append(element('h3', result.job.title), element('p', `${result.job.company} · ${managerName}`, 'company'));
   }
-  card.append(element('span', `${result.hops} ${result.hops === 1 ? 'hop' : 'hops'} · ${Math.round(result.score * 100)}% path strength`, 'badge'));
+  const tags = element('div', undefined, 'result-tags');
+  tags.append(element('span', `${result.hops} ${result.hops === 1 ? 'hop' : 'hops'} · ${Math.round(result.score * 100)}% path strength`, 'badge'));
+  if (match.includes('role')) tags.append(element('span', 'Role match', 'tag'));
+  if (match.includes('name')) tags.append(element('span', 'Name match', 'tag'));
+  card.append(tags);
   const path = element('div', undefined, 'path');
   result.people.forEach((person, index) => {
     if (index) path.append(element('span', '→', 'path-arrow'));
@@ -236,44 +398,52 @@ function renderResult(result, seekerId, searchType) {
   return card;
 }
 
-$('search-type').addEventListener('change', () => {
-  const byName = $('search-type').value === 'manager';
-  $('query-label').textContent = byName ? 'Who would you like to connect with?' : 'What role are you looking for?';
-  $('query').placeholder = byName ? 'First name, last name, or full name…' : 'Backend engineer, designer…';
-  $('query').value = '';
-  clearResults();
-  message('search-message');
-  $('query').focus();
-});
-
-$('search-form').addEventListener('submit', async (event) => {
-  event.preventDefault();
-  const seekerId = user?.id ?? Number($('seeker-mode').value === 'name'
-    ? $('seeker-matches').value : $('seeker').value);
-  if (!Number.isInteger(seekerId) || seekerId < 1) {
-    message('seeker-message', 'Find and choose a user before searching.', true);
+/**
+ * Run a path search for what's in the box.
+ *   live:      triggered by typing (quieter: no error when no start person is chosen)
+ *   type:      force 'role' / 'manager' / 'all' (defaults to the selected chip)
+ *   managerId: one specific person, after picking them from the suggestions
+ */
+async function runSearch({ live = false, type = searchType(), managerId = pickedManager?.id } = {}) {
+  const seekerId = currentSeekerId();
+  const query = $('query').value.trim();
+  if (!seekerId) {
+    if (!live) message('seeker-message', 'Find and choose a user before searching.', true);
     return;
   }
-  const query = $('query').value.trim();
-  const searchType = $('search-type').value;
-  if (!query) { message('search-message', 'Enter a role or hiring manager name to search for.', true); return; }
-  clearResults();
+  if (!query) { if (!live) message('search-message', 'Type a role or a person\'s name to search for.', true); return; }
+  if (live && query.length < MIN_LIVE_CHARS) return;
+
+  searchVersion++;                         // any older search's results are now out of date
   const version = searchVersion;
-  $('search-button').disabled = true;
+  $('results-section').setAttribute('aria-busy', 'true');
+  if (!live) $('search-button').disabled = true;
   message('search-message', 'Finding the strongest paths through your network…');
   try {
-    const params = new URLSearchParams({ seeker_id: String(seekerId), q: query, limit: '3', search_type: searchType });
+    const params = new URLSearchParams({ seeker_id: String(seekerId), q: query, limit: '3', search_type: type });
+    if (managerId) params.set('manager_id', String(managerId));
     const data = await request(`/search?${params}`);
     if (version !== searchVersion) return;
-    message('search-message', data.results.length ? '' : searchType === 'manager'
-      ? 'No hiring managers with that name are reachable within six hops. Try a first or last name.'
-      : 'No connected hiring managers found for that role. Try another role or user.');
+    const what = managerId ? `${pickedManager?.name ?? 'that person'} isn't` :
+      type === 'role' ? 'No connected hiring managers for that role are' :
+      type === 'manager' ? 'No hiring managers with that name are' : 'No matching roles or hiring managers are';
+    message('search-message', data.results.length ? '' : `${what} reachable within six introductions. Try another search, or add more connections.`);
     $('results-section').hidden = !data.results.length;
     $('results-count').textContent = `${data.results.length} ${data.results.length === 1 ? 'path' : 'paths'} found`;
-    $('results').replaceChildren(...data.results.map((result) => renderResult(result, seekerId, searchType)));
+    $('results').replaceChildren(...data.results.map((result) => renderResult(result, seekerId)));
   } catch (error) {
     if (version === searchVersion) message('search-message', error.message, true);
-  } finally { $('search-button').disabled = false; }
+  } finally {
+    if (version === searchVersion) $('results-section').removeAttribute('aria-busy');
+    $('search-button').disabled = false;
+  }
+}
+
+$('search-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  clearTimeout(liveTimer);
+  closeSuggestions();
+  runSearch();
 });
 
 // ---------------------------------------------------------------------------

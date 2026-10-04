@@ -19,7 +19,7 @@
     </section>
     <section class="search-panel" aria-labelledby="search-heading">
       <div class="section-heading"><div><p class="eyebrow">MAKE THE FIRST CONNECTION</p><h2 id="search-heading">Find your way in</h2></div><span class="badge">Up to 6 hops</span></div>
-      <label class="search-mode">Search by<select id="search-type"><option value="role">Job role</option><option value="manager">Hiring manager name</option></select></label>
+      <div class="search-mode" role="radiogroup" aria-label="Search for"><button type="button" class="chip" role="radio" aria-checked="true" data-type="all">All</button><button type="button" class="chip" role="radio" aria-checked="false" data-type="role">Roles</button><button type="button" class="chip" role="radio" aria-checked="false" data-type="manager">People</button><input type="hidden" id="search-type" value="all"></div>
       <form id="search-form">
         <div id="seeker-field">
           <label>Start from<select id="seeker-mode"><option value="name">User name</option><option value="id">User ID</option></select></label>
@@ -32,7 +32,7 @@
           <small>Choose a person in the demo network, or sign in to use your own profile.</small>
           <p id="seeker-message" class="message" role="status" aria-live="polite"></p>
         </div>
-        <label class="query-field"><span id="query-label">What role are you looking for?</span><input id="query" type="search" required maxlength="201" placeholder="Backend engineer, designer…" value="engineer"></label>
+        <div class="query-field"><label for="query" id="query-label">Search for a role or a person</label><div class="combo"><input id="query" type="search" required maxlength="201" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions" placeholder="Try “engineer” or a hiring manager’s name…"><ul id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions" hidden></ul></div><small>Results update as you type. Use ↑ ↓ and Enter to pick a suggestion.</small></div>
         <button id="search-button" type="submit">Find connections <span>↗</span></button>
       </form>
       <p id="search-message" class="message" role="status" aria-live="polite"></p>
