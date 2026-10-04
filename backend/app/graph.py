@@ -52,7 +52,7 @@ def _edges_touching(user_ids):
             batch + batch,
         )
         if random.random() < CACHE_MISS_PROB:
-          time.sleep(5)
+          time.sleep(0.5)
           
     return rows
 
