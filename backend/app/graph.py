@@ -24,6 +24,8 @@ from . import db
 MAX_HOPS = 6        # the "six degrees" limit: longest chain of introductions we'll suggest
 BATCH_SIZE = 1000   # max ids per SQL "IN (...)" list, so queries stay a reasonable size
 
+def _get_data_from_web():
+  time.sleep(0.5)
 
 def _edges_touching(user_ids):
     """Fetch every connection where at least one of the two people is in user_ids."""
@@ -51,8 +53,9 @@ def _edges_touching(user_ids):
                 WHERE user_a_id IN ({marks}) OR user_b_id IN ({marks})""",
             batch + batch,
         )
+      
         if random.random() < CACHE_MISS_PROB:
-          time.sleep(0.5)
+          _get_data_from_web()
           
     return rows
 
