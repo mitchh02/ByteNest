@@ -89,3 +89,38 @@ CREATE TABLE job_openings (
 --   SELECT j.id, j.title, j.company, j.posted_by
 --   FROM job_openings j
 --   WHERE j.is_open AND MATCH(j.title, j.description) AGAINST ('backend engineer');
+
+
+-- Intro requests: one row per request a seeker sends down a path
+CREATE TABLE IF NOT EXISTS intro_requests (
+  id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  seeker_id    INT UNSIGNED NOT NULL,
+  target_id    INT UNSIGNED NOT NULL,                -- the hiring manager at the end of the path
+  job_id       INT UNSIGNED NULL,
+  path_json    JSON         NOT NULL,                -- [seeker, person 1, person 2, ..., hiring manager]
+  current_hop  TINYINT UNSIGNED NOT NULL DEFAULT 1,  -- position in the path of whoever must answer next
+  status       ENUM('pending', 'completed', 'declined') NOT NULL DEFAULT 'pending',
+  pitch        TEXT         NULL,                    -- the seeker's short note about themselves
+  created_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (seeker_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (target_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (job_id)    REFERENCES job_openings(id) ON DELETE SET NULL
+);
+
+-- Intro hops: the message passed between each pair of people, and that person's answer
+CREATE TABLE IF NOT EXISTS intro_hops (
+  id           INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  request_id   INT UNSIGNED NOT NULL,
+  hop_index    TINYINT UNSIGNED NOT NULL,            -- 1 = seeker -> first person, 2 = next, ...
+  from_user_id INT UNSIGNED NOT NULL,
+  to_user_id   INT UNSIGNED NOT NULL,
+  message      TEXT         NOT NULL,
+  status       ENUM('pending', 'accepted', 'declined') NOT NULL DEFAULT 'pending',
+  responded_at TIMESTAMP    NULL,
+  FOREIGN KEY (request_id)   REFERENCES intro_requests(id) ON DELETE CASCADE,
+  FOREIGN KEY (from_user_id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (to_user_id)   REFERENCES users(id) ON DELETE CASCADE,
+  UNIQUE KEY uq_hop (request_id, hop_index),         -- one message per step of a request
+  INDEX idx_hops_inbox (to_user_id, status)          -- fast "what's waiting for me?" lookups
+);
