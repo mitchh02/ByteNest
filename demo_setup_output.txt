@@ -1,0 +1,22 @@
+0 --hops 2-6
+Finding the strongest demo path…
+
+Demo path: 2 introductions, 58% path strength
+Job: Data Engineer at Northstar Labs
+
+    Name                    Role in the demo            Email                             Password
+1   Mitch Haus              Job seeker (you)            mitch.haus@demo.dev               demo1234
+2   Jamie Chen              Connection 1                jamie.chen@demo.dev               demo1234
+3   Casey Kim               Hiring manager              casey.kim@demo.dev                demo1234
+
+How each pair knows each other:
+  Mitch Haus → Jamie Chen: connected
+  Jamie Chen → Casey Kim: Met through a synthetic professional networking event
+
+Demo steps (use a normal window and a private window, so two people can be signed in):
+  1. Sign in as Mitch Haus (mitch.haus@demo.dev).
+  2. Search "Data Engineer" and click Request introduction on the path to Casey Kim.
+  3. In the other window, sign in as Jamie Chen (jamie.chen@demo.dev) and click Accept introduction.
+  4. In the other window, sign in as Casey Kim (casey.kim@demo.dev) and click Accept introduction — the hiring manager says yes!
+
+To set this path up again from scratch later: python demo_setup.py --seeker 130 --hops 2-6
