@@ -7,7 +7,8 @@ introductions.
 
 How it works, in three stages:
   1. load_neighborhood    - pull only the nearby part of the network from the database
-  2. hop_limited_dijkstra - search it for the strongest path to everyone within 6 hops
+  2. bidirectional_dijkstra - search from both ends for a single target
+     hop_limited_dijkstra   - share one search when looking for multiple targets
   3. best_paths           - rank the hiring managers by path strength and add their names
 
 "Strength" is a number from 0 to 1 on each connection (1 = very close). A path's
@@ -16,6 +17,7 @@ along the chain passes the intro on."
 """
 import heapq   # priority queue: always hands back the cheapest route found so far
 import math
+from itertools import count
 
 import networkx as nx  # graph data structure (people = nodes, connections = edges)
 
@@ -80,8 +82,8 @@ def load_neighborhood(seeker_id, target_ids):
         for _ in range(rounds):
             # Skip anyone already expanded (for example, reached from the other side)
             to_query = frontier - expanded
-            if not to_query:
-                break  # nothing new to explore
+            if not frontier:
+                break
 
             next_frontier = set()
             for c in _edges_touching(to_query):
@@ -93,11 +95,13 @@ def load_neighborhood(seeker_id, target_ids):
                 # weak ties (near 0) cost a lot. Adding the same edge twice is harmless.
                 G.add_edge(a, b, strength=s, cost=-math.log(s), context=c["context"])
 
-                # Anyone we haven't seen becomes part of the next ring outward
-                for person in (a, b):
-                    if person not in seen:
-                        seen.add(person)
-                        next_frontier.add(person)
+            # Traverse cached edges too: the other side may already have fetched
+            # this frontier's edges, but we still need to advance this side's rings.
+            for person in frontier:
+                for neighbor in G.neighbors(person) if person in G else ():
+                    if neighbor not in seen:
+                        seen.add(neighbor)
+                        next_frontier.add(neighbor)
 
             expanded |= to_query     # remember we've loaded these people's connections
             frontier = next_frontier # move one step further out
@@ -125,6 +129,103 @@ def get_people(user_ids):
     )
     # Turn the list of rows into {id: row} so we can look people up by id
     return {r["id"]: r for r in rows}
+
+
+def bidirectional_dijkstra(G, source, target, max_hops=MAX_HOPS):
+    """Find the strongest source-to-target path within a TOTAL hop limit.
+
+    Run Dijkstra from both ends of an implicit layered graph whose states are
+    (person, hops_used). Forward edges increment the layer; reverse edges
+    decrement it. The reverse search starts at (target, h) for every allowed
+    final length h, so both searches meet in the same state only when their
+    combined path fits the cap. Neither side has a separate half-hop limit.
+
+    Stop when the two minimum unsettled costs sum to at least the best complete
+    route's cost, not at the first meeting. Return a path or None if unreachable.
+    The graph must have finite nonnegative edge costs (as -log(strength) does).
+    """
+    if not isinstance(max_hops, int) or max_hops < 0:
+        raise ValueError("max_hops must be a nonnegative integer")
+    if source not in G or target not in G:
+        return None
+    if source == target:
+        return [source]
+    if max_hops == 0:
+        return None
+
+    serial = count()  # Queue ties never compare user IDs or paths.
+    start = (source, 0)
+    distances = [{start: 0.0}, {(target, h): 0.0 for h in range(max_hops + 1)}]
+    parents = [{start: None}, {state: None for state in distances[1]}]
+    queues = [[(0.0, next(serial), start)],
+              [(0.0, next(serial), state) for state in distances[1]]]
+    settled = [set(), set()]
+    best_cost, meeting = math.inf, None
+    side = 1
+
+    while True:
+        for direction in (0, 1):
+            queue = queues[direction]
+            while queue and (queue[0][2] in settled[direction] or
+                             queue[0][0] != distances[direction][queue[0][2]]):
+                heapq.heappop(queue)
+        if not queues[0] or not queues[1]:
+            break
+        if queues[0][0][0] + queues[1][0][0] >= best_cost:
+            break
+
+        # Alternate directions to avoid starving either search on zero-cost ties.
+        side = 1 - side
+        other = 1 - side
+        cost, _, state = heapq.heappop(queues[side])
+        settled[side].add(state)
+        person, hops = state
+        next_hops = hops + (1 if side == 0 else -1)
+        if not 0 <= next_hops <= max_hops:
+            continue
+        neighbors = G[person] if side == 0 or not G.is_directed() else G.pred[person]
+        for neighbor, edge in neighbors.items():
+            next_state = (neighbor, next_hops)
+            edge_cost = edge["cost"]
+            if not math.isfinite(edge_cost) or edge_cost < 0:
+                raise ValueError("Dijkstra requires finite nonnegative edge costs")
+            new_cost = cost + edge_cost
+            if next_state in settled[side]:
+                continue
+            if new_cost < distances[side].get(next_state, math.inf):
+                distances[side][next_state] = new_cost
+                parents[side][next_state] = state
+                heapq.heappush(queues[side], (new_cost, next(serial), next_state))
+                complete_cost = new_cost + distances[other].get(next_state, math.inf)
+                if complete_cost < best_cost:
+                    best_cost, meeting = complete_cost, next_state
+
+    if meeting is None:
+        return None
+    prefix = []
+    state = meeting
+    while state is not None:
+        prefix.append(state[0])
+        state = parents[0][state]
+    path = list(reversed(prefix))
+    state = parents[1][meeting]
+    while state is not None:
+        path.append(state[0])
+        state = parents[1][state]
+
+    # Equal-cost routes may revisit a person via different layers. Erase cycles
+    # so an introduction never goes through the same person twice.
+    simple_path, positions = [], {}
+    for person in path:
+        if person in positions:
+            index = positions[person]
+            for removed in simple_path[index + 1:]:
+                del positions[removed]
+            del simple_path[index + 1:]
+        else:
+            positions[person] = len(simple_path)
+            simple_path.append(person)
+    return simple_path
 
 
 def hop_limited_dijkstra(G, source, max_hops, targets=None, limit=None):
@@ -192,14 +293,23 @@ def hop_limited_dijkstra(G, source, max_hops, targets=None, limit=None):
 
 def best_paths(seeker_id, target_ids, limit=3):
     """Find the strongest path (within MAX_HOPS) from the seeker to each target, best first."""
+    target_ids = list(dict.fromkeys(target_ids))
+    target_ids = [target for target in target_ids if target != seeker_id]
+    if not target_ids or limit <= 0:
+        return []
     # Stage 1: load only the nearby part of the network
     G = load_neighborhood(seeker_id, target_ids)
     if seeker_id not in G:
         return []  # the seeker has no connections at all
 
-    # Stage 2: search outward from the seeker, stopping once the `limit` strongest
-    # hiring managers have been found
-    paths = hop_limited_dijkstra(G, seeker_id, MAX_HOPS, targets=target_ids, limit=limit)
+    # A person-to-person query searches from both ends. Multiple managers share
+    # one source search rather than repeating work for every target.
+    if len(target_ids) == 1:
+        target = target_ids[0]
+        path = bidirectional_dijkstra(G, seeker_id, target, MAX_HOPS)
+        paths = {target: path} if path is not None else {}
+    else:
+        paths = hop_limited_dijkstra(G, seeker_id, MAX_HOPS, targets=target_ids, limit=limit)
 
     # Build a result for each hiring manager we can reach
     results = []
