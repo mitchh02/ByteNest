@@ -5,6 +5,29 @@ let signup = false;
 let searchVersion = 0;
 const CLOSENESS_LABELS = { 5: 'Close', 4: 'Worked together', 3: 'Know well', 2: 'Acquaintance', 1: 'Met once' };
 
+// ---------------------------------------------------------------------------
+// Light/dark switch. Follows the device setting until the user picks one,
+// then remembers their choice (the page <head> applies it before drawing).
+// ---------------------------------------------------------------------------
+
+const darkQuery = window.matchMedia('(prefers-color-scheme: dark)');
+const activeTheme = () => document.documentElement.dataset.theme || (darkQuery.matches ? 'dark' : 'light');
+
+function updateThemeToggle() {
+  const next = activeTheme() === 'dark' ? 'light' : 'dark';
+  $('theme-toggle').setAttribute('aria-label', `Switch to ${next} mode`);
+  $('theme-toggle').title = `Switch to ${next} mode`;
+}
+
+$('theme-toggle').addEventListener('click', () => {
+  const theme = activeTheme() === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem('theme', theme); } catch { /* private mode: works until reload */ }
+  updateThemeToggle();
+});
+darkQuery.addEventListener('change', updateThemeToggle);   // device setting changed
+updateThemeToggle();
+
 function message(id, text = '', error = false) {
   $(id).textContent = text;
   $(id).classList.toggle('error', error);
