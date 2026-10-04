@@ -4,12 +4,14 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Find your next role through people you know.">
-  <title>Six Degrees — Find your way in</title>
+  <title>GitConnectd — Find your way in</title>
+  <script>try { const t = localStorage.getItem("theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch {}</script>
+  <meta name="color-scheme" content="light dark">
   <link rel="stylesheet" href="/assets/style.css">
   <script type="module" src="/assets/app.js"></script>
 </head>
 <body>
-  <header><a class="brand" href="/">six<span>degrees</span><span class="brand-dot">●</span></a><nav><a href="/docs">API docs</a><button id="account-button" class="secondary">Sign in</button></nav></header>
+  <header><a class="brand" href="/" aria-label="GitConnectd home">Git<span>Connectd</span><span class="brand-dot">●</span></a><nav><a href="/docs">API docs</a><button id="account-button" class="secondary">Sign in</button><button id="theme-toggle" class="theme-toggle" type="button" aria-label="Switch to dark mode" title="Switch to dark mode"><svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></nav></header>
   <main>
     <section class="hero">
       <p class="eyebrow">YOUR NETWORK. YOUR NEXT CHAPTER.</p>
@@ -19,28 +21,50 @@
     </section>
     <section class="search-panel" aria-labelledby="search-heading">
       <div class="section-heading"><div><p class="eyebrow">MAKE THE FIRST CONNECTION</p><h2 id="search-heading">Find your way in</h2></div><span class="badge">Up to 6 hops</span></div>
-      <label class="search-mode">Search by<select id="search-type"><option value="role">Job role</option><option value="manager">Hiring manager name</option></select></label>
+      <div class="search-mode" role="radiogroup" aria-label="Search for"><button type="button" class="chip" role="radio" aria-checked="true" data-type="all">All</button><button type="button" class="chip" role="radio" aria-checked="false" data-type="role">Roles</button><button type="button" class="chip" role="radio" aria-checked="false" data-type="manager">People</button><input type="hidden" id="search-type" value="all"></div>
       <form id="search-form">
         <div id="seeker-field">
           <label>Start from<select id="seeker-mode"><option value="name">User name</option><option value="id">User ID</option></select></label>
           <div id="seeker-name-fields">
-            <label>User name<input id="seeker-name" type="search" maxlength="201" required placeholder="First or last name…"></label>
-            <button id="lookup-seeker" type="button" class="secondary">Find user</button>
-            <label id="seeker-matches-field" hidden>Choose a user<select id="seeker-matches" aria-describedby="seeker-message"></select></label>
+            <label for="seeker-name">User name</label>
+            <div class="combo"><input id="seeker-name" type="search" maxlength="201" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="seeker-suggestions" required aria-describedby="seeker-message" placeholder="Start typing a name…"><ul id="seeker-suggestions" class="suggestions" role="listbox" aria-label="Matching people" hidden></ul></div>
+            <select id="seeker-matches" hidden aria-hidden="true" tabindex="-1"></select>
           </div>
           <label id="seeker-id-field" hidden>Your user ID<input id="seeker" type="number" min="1" step="1" placeholder="e.g. 1"></label>
           <small>Choose a person in the demo network, or sign in to use your own profile.</small>
           <p id="seeker-message" class="message" role="status" aria-live="polite"></p>
         </div>
-        <label class="query-field"><span id="query-label">What role are you looking for?</span><input id="query" type="search" required maxlength="201" placeholder="Backend engineer, designer…" value="engineer"></label>
+        <div class="query-field"><label for="query" id="query-label">Search for a role or a person</label><div class="combo"><input id="query" type="search" required maxlength="201" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="suggestions" placeholder="Try “engineer” or a hiring manager’s name…"><ul id="suggestions" class="suggestions" role="listbox" aria-label="Suggestions" hidden></ul></div><small>Results update as you type. Use ↑ ↓ and Enter to pick a suggestion.</small></div>
         <button id="search-button" type="submit">Find connections <span>↗</span></button>
       </form>
       <p id="search-message" class="message" role="status" aria-live="polite"></p>
     </section>
+    <section id="inbox-section" class="panel inbox-panel" hidden aria-labelledby="inbox-heading"><div class="section-heading"><div><p class="eyebrow">YOUR INBOX</p><h2 id="inbox-heading">Introductions waiting for you</h2></div><div class="inbox-tools"><span id="inbox-count" class="badge" hidden></span><button id="refresh-inbox" class="secondary">Refresh</button></div></div><p id="inbox-message" class="message" role="status"></p><div id="inbox"></div></section>
+    <section id="connections-section" class="panel" hidden aria-labelledby="connections-heading">
+      <div class="section-heading"><div><p class="eyebrow">WHO YOU KNOW</p><h2 id="connections-heading">Your connections</h2></div><span id="connections-count" class="badge"></span></div>
+      <p class="subtle">Add people you know. The closer you are, the stronger the paths through them.</p>
+      <form id="connection-form">
+        <div class="person-picker"><label for="connection-name">Find a person</label><div class="combo"><input id="connection-name" type="search" maxlength="201" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="connection-suggestions" placeholder="Start typing a name…"><ul id="connection-suggestions" class="suggestions" role="listbox" aria-label="Matching people" hidden></ul></div></div>
+        <input type="hidden" id="connection-matches">
+        <div id="connection-details" hidden>
+          <p id="connection-chosen" class="chosen" aria-live="polite"></p>
+          <label>How well do you know them?<select id="closeness">
+            <option value="5">Close: we talk often</option>
+            <option value="4" selected>Worked together</option>
+            <option value="3">Know them well</option>
+            <option value="2">Acquaintance</option>
+            <option value="1">Met once</option>
+          </select></label>
+          <label>How do you know them? <span class="optional">optional</span><input id="connection-context" maxlength="255" placeholder="Worked together at Acme"></label>
+          <button id="add-connection" type="submit">Add connection</button>
+        </div>
+      </form>
+      <p id="connection-message" class="message" role="status" aria-live="polite"></p>
+      <ul id="connections" class="connection-list"></ul>
+    </section>
     <section id="results-section" hidden><div class="section-heading"><h2>Your paths to opportunity</h2><span id="results-count" class="badge"></span></div><div id="results"></div></section>
-    <section id="inbox-section" hidden><div class="section-heading"><h2>Introductions waiting for you</h2><button id="refresh-inbox" class="secondary">Refresh</button></div><p id="inbox-message" class="message" role="status"></p><div id="inbox"></div></section>
   </main>
-  <footer><span>Good opportunities start with a conversation.</span><span>Six Degrees Hiring</span></footer>
+  <footer><span>Good opportunities start with a conversation.</span><span>GitConnectd</span></footer>
   <dialog id="account-dialog">
     <form id="account-form">
       <div class="section-heading"><h2 id="account-heading">Welcome back</h2><button id="close-account" type="button" class="secondary" aria-label="Close">✕</button></div>
@@ -48,6 +72,16 @@
       <div id="name-fields" hidden><label>First name<input id="first-name" autocomplete="given-name" maxlength="100"></label><label>Last name<input id="last-name" autocomplete="family-name" maxlength="100"></label></div>
       <label>Email<input id="email" type="email" autocomplete="email" maxlength="255" required></label>
       <label>Password<input id="password" type="password" autocomplete="current-password" minlength="6" maxlength="72" required></label>
+      <fieldset id="profile-fields" hidden>
+        <legend>About you <span>optional</span></legend>
+        <div class="field-row"><label>Job title<input id="job-title" autocomplete="organization-title" maxlength="150" placeholder="Frontend engineer"></label><label>Company<input id="company" autocomplete="organization" maxlength="150"></label></div>
+        <label>Location<input id="location" autocomplete="address-level2" maxlength="150" placeholder="Kansas City, MO"></label>
+        <div class="field-row"><label>Phone<input id="phone" type="tel" autocomplete="tel" maxlength="25" placeholder="+1 555 123 4567"></label><label>GitHub username<input id="github" autocomplete="off" maxlength="40" pattern="@?[A-Za-z0-9](?:[A-Za-z0-9]|-(?=[A-Za-z0-9])){0,38}" placeholder="octocat"></label></div>
+        <label>Short bio<textarea id="bio" maxlength="1000" rows="3" placeholder="What you work on and what you're looking for"></textarea></label>
+        <label class="checkbox"><input id="is-hiring" type="checkbox"> I'm hiring</label>
+        <label id="open-role-field" hidden>Open role<input id="open-role" maxlength="150" placeholder="Backend engineer"><small>Job seekers searching for this role can find a path to you. Needs your company.</small></label>
+        <small>Your phone and email stay private. Your GitHub username is shown on your profile.</small>
+      </fieldset>
       <p id="account-message" class="message" role="status"></p>
       <button id="account-submit" type="submit">Sign in</button>
       <button id="toggle-account" type="button" class="secondary">Create an account</button>

@@ -1,5 +1,5 @@
 """
-Path finding for Six Degrees Hiring.
+Path finding for GitConnectd.
 
 Given a job seeker and a list of hiring managers, find the strongest chain of
 real relationships from the seeker to each manager, using at most MAX_HOPS

@@ -1,5 +1,5 @@
 /**
- * Talks to the Six Degrees backend (FastAPI + MariaDB).
+ * Talks to the GitConnectd backend (FastAPI + MariaDB).
  *
  * Login: signIn/signUp save a token in localStorage; every later request sends it
  * as "Authorization: Bearer <token>", which is how the backend knows who you are.

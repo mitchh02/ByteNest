@@ -4,9 +4,9 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 
-from .routes import auth, intros, search
+from .routes import auth, connections, intros, search
 
-app = FastAPI(title="Six Degrees Hiring API")
+app = FastAPI(title="GitConnectd API")
 
 # Let the frontend (running on a different port) call this API from the browser.
 # "*" allows any site, which is fine for a hackathon but should be locked down later.
@@ -20,6 +20,7 @@ app.add_middleware(
 app.include_router(search.router)
 app.include_router(intros.router)
 app.include_router(auth.router)
+app.include_router(connections.router)
 
 FRONTEND_DIR = Path(__file__).resolve().parents[2] / "frontend"
 app.mount("/assets", StaticFiles(directory=FRONTEND_DIR / "assets"), name="frontend-assets")
