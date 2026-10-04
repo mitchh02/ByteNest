@@ -53,3 +53,15 @@ fieldset small{max-width:none}
 .tag{font-size:12px;border:1px solid #bfcfba;color:var(--green);padding:6px 10px;border-radius:20px}
 @media(max-width:700px){.suggestion{flex-direction:column;gap:2px}.suggestion small{text-align:left;white-space:normal}}
 @media(max-width:700px){header{padding:20px 16px;gap:12px}.brand{white-space:nowrap;font-size:22px}nav a[href="/docs"]{display:none}#account-button{white-space:nowrap}}
+/* Name boxes that suggest people as you type */
+#seeker-name-fields > label{margin-top:12px}
+#seeker-name-fields .combo input{margin-top:9px}
+.query-field .combo input{margin-top:9px}
+#connection-form{grid-template-columns:1fr}
+.person-picker .combo input{margin-top:9px}
+.chosen{grid-column:1/-1;margin:0;font-size:14px;color:#253631}
+.chosen strong{font-weight:700}
+.suggestion-person{display:flex;flex-direction:column;min-width:0}
+.suggestion-person small{text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.suggestion .status{flex-shrink:0;font-size:11px;border:1px solid #bfcfba;color:var(--green);padding:3px 8px;border-radius:20px;align-self:center}
+.suggestion-empty{padding:10px 12px;font-size:14px;color:var(--muted)}

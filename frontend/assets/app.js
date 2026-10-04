@@ -3,8 +3,6 @@ const TOKEN_KEY = 'six_degrees_token';
 let user = null;
 let signup = false;
 let searchVersion = 0;
-let lookupVersion = 0;
-let connectionLookupVersion = 0;
 const CLOSENESS_LABELS = { 5: 'Close', 4: 'Worked together', 3: 'Know well', 2: 'Acquaintance', 1: 'Met once' };
 
 function message(id, text = '', error = false) {
@@ -61,16 +59,140 @@ function setUser(value) {
   $('inbox').replaceChildren();
   $('connections-section').hidden = !value;
   $('connections').replaceChildren();
+  connectedCloseness = new Map();
   message('connection-message');
   resetConnectionForm();
   if (value) { loadInbox(); loadConnections(); }
 }
 
+// ---------------------------------------------------------------------------
+// Name boxes that suggest people as you type (used for "Start from" and
+// "Find a person" in Your connections)
+// ---------------------------------------------------------------------------
+
+/**
+ * Turn a text input into a people picker.
+ *   exclude(): ids to leave out of the suggestions
+ *   status(person): a short label shown beside a person (e.g. "Connected"), or ''
+ *   onPick(person): called when someone is chosen
+ *   onClear(): called when the text changes after a pick (the pick no longer applies)
+ */
+function personAutocomplete({ input, list, exclude = () => new Set(), status = () => '', onPick, onClear = () => {} }) {
+  let version = 0;
+  let timer = null;
+  let items = [];
+  let active = -1;
+  let picked = false;
+
+  const fullName = (person) => `${person.first_name} ${person.last_name}`;
+
+  function close() {
+    version++;
+    list.hidden = true;
+    list.replaceChildren();
+    input.setAttribute('aria-expanded', 'false');
+    input.removeAttribute('aria-activedescendant');
+    items = [];
+    active = -1;
+  }
+
+  function setActive(index) {
+    items.forEach((item, i) => item.node.setAttribute('aria-selected', String(i === index)));
+    active = index;
+    if (index >= 0) {
+      input.setAttribute('aria-activedescendant', items[index].node.id);
+      items[index].node.scrollIntoView({ block: 'nearest' });
+    } else input.removeAttribute('aria-activedescendant');
+  }
+
+  // Best matches first: name starts with the text, then a word starts with it, then anywhere
+  function rank(person, query) {
+    const name = fullName(person).toLowerCase();
+    const q = query.toLowerCase();
+    return name.startsWith(q) ? 0 : ` ${name}`.includes(` ${q}`) ? 1 : 2;
+  }
+
+  function note(text) {
+    const li = element('li', text, 'suggestion-empty');
+    li.setAttribute('role', 'presentation');
+    return li;
+  }
+
+  function render(people, query, more) {
+    items = [];
+    const nodes = people.map((person, i) => {
+      const option = element('li', undefined, 'suggestion');
+      option.id = `${list.id}-${i}`;
+      option.setAttribute('role', 'option');
+      option.setAttribute('aria-selected', 'false');
+      const who = element('span', undefined, 'suggestion-person');
+      who.append(highlighted(fullName(person), query),
+        element('small', [person.job_title, person.company, person.location].filter(Boolean).join(' · ')));
+      option.append(who);
+      const label = status(person);
+      if (label) option.append(element('span', label, 'status'));
+      // mousedown (not click) so the input keeps focus and the list doesn't close first
+      option.addEventListener('mousedown', (event) => { event.preventDefault(); pick(person); });
+      items.push({ person, node: option });
+      return option;
+    });
+    if (!people.length) nodes.push(note('No one by that name. Try a first or last name.'));
+    else if (more) nodes.push(note('Keep typing to narrow the list.'));
+    list.replaceChildren(...nodes);
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    setActive(-1);
+  }
+
+  async function load() {
+    const query = input.value.trim().replace(/\s+/g, ' ');
+    if (!query || picked) { close(); return; }
+    const mine = ++version;
+    let data;
+    try { data = await request(`/users/lookup?${new URLSearchParams({ q: query })}`); } catch { return; }
+    if (mine !== version || document.activeElement !== input) return;   // a newer search or focus moved
+    const skip = exclude();
+    const people = data.users
+      .filter((person) => !skip.has(person.id))
+      .map((person, i) => ({ person, i, r: rank(person, query) }))
+      .sort((a, b) => a.r - b.r || a.i - b.i)
+      .map((x) => x.person)
+      .slice(0, 8);
+    render(people, query, data.users.length === 25);
+  }
+
+  function pick(person) {
+    picked = true;
+    input.value = fullName(person);
+    close();
+    onPick(person);
+  }
+
+  input.addEventListener('input', () => {
+    picked = false;
+    onClear();
+    clearTimeout(timer);
+    timer = setTimeout(load, 150);
+  });
+  input.addEventListener('keydown', (event) => {
+    const open = !list.hidden && items.length;
+    if (event.key === 'ArrowDown' && open) { event.preventDefault(); setActive((active + 1) % items.length); }
+    else if (event.key === 'ArrowUp' && open) { event.preventDefault(); setActive(active <= 0 ? items.length - 1 : active - 1); }
+    else if (event.key === 'Enter' && open) { event.preventDefault(); pick(items[Math.max(active, 0)].person); }
+    else if (event.key === 'Escape' && !list.hidden) { event.preventDefault(); close(); }
+  });
+  input.addEventListener('focus', () => { if (input.value.trim() && !picked) load(); });
+  input.addEventListener('blur', close);
+
+  return {
+    clear() { picked = false; input.value = ''; close(); },
+  };
+}
+
+// --- "Start from": who the search starts from, when not signed in ---
+
 function resetSeekerLookup() {
-  lookupVersion++;
-  $('seeker-matches').replaceChildren();
-  $('seeker-matches').required = false;
-  $('seeker-matches-field').hidden = true;
+  $('seeker-matches').replaceChildren();   // holds the picked person, if any
   message('seeker-message');
 }
 
@@ -82,56 +204,27 @@ function updateSeekerMode() {
   $('seeker').required = !user && !byName;
 }
 
+const seekerPicker = personAutocomplete({
+  input: $('seeker-name'),
+  list: $('seeker-suggestions'),
+  onPick(person) {
+    const name = `${person.first_name} ${person.last_name}`;
+    $('seeker-matches').replaceChildren(new Option(name, person.id, true, true));
+    const details = [person.job_title, person.company].filter(Boolean).join(' · ');
+    message('seeker-message', `Starting from ${name}${details ? ` (${details})` : ''}.`);
+    clearResults();
+    if ($('query').value.trim()) runSearch({ live: true });
+  },
+  onClear() { resetSeekerLookup(); clearResults(); },
+});
+
 $('seeker-mode').addEventListener('change', () => {
+  seekerPicker.clear();
   resetSeekerLookup();
   updateSeekerMode();
   clearResults();
 });
-$('seeker-name').addEventListener('input', () => {
-  resetSeekerLookup();
-  clearResults();
-});
 $('seeker').addEventListener('input', clearResults);
-$('seeker-matches').addEventListener('change', () => {
-  clearResults();
-  if ($('query').value.trim()) runSearch({ live: true });
-});
-
-async function lookupSeeker() {
-  const name = $('seeker-name').value.trim();
-  if (!name) { message('seeker-message', 'Enter a user name first.', true); return; }
-  resetSeekerLookup();
-  clearResults();
-  const version = lookupVersion;
-  $('lookup-seeker').disabled = true;
-  message('seeker-message', 'Looking up users…');
-  try {
-    const data = await request(`/users/lookup?${new URLSearchParams({ q: name })}`);
-    if (version !== lookupVersion) return;
-    if (!data.users.length) {
-      message('seeker-message', 'No users found. Try a first or last name.', true);
-      return;
-    }
-    const options = [new Option('Select a user…', '')];
-    for (const person of data.users) {
-      const details = [person.job_title, person.company, person.location].filter(Boolean).join(' · ');
-      options.push(new Option(`${person.first_name} ${person.last_name}${details ? ' — ' + details : ''} (ID ${person.id})`, person.id));
-    }
-    $('seeker-matches').replaceChildren(...options);
-    $('seeker-matches').required = true;
-    $('seeker-matches-field').hidden = false;
-    if (data.users.length === 1) $('seeker-matches').value = data.users[0].id;
-    message('seeker-message', data.users.length === 25
-      ? 'Showing the first 25 matches. Enter a fuller name to narrow the results.'
-      : `${data.users.length} ${data.users.length === 1 ? 'user found.' : 'users found. Choose your starting profile.'}`);
-  } catch (error) {
-    if (version === lookupVersion) message('seeker-message', error.message, true);
-  } finally { $('lookup-seeker').disabled = false; }
-}
-$('lookup-seeker').addEventListener('click', lookupSeeker);
-$('seeker-name').addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') { event.preventDefault(); lookupSeeker(); }
-});
 
 $('account-button').addEventListener('click', () => {
   if (user) {
@@ -450,12 +543,36 @@ $('search-form').addEventListener('submit', (event) => {
 // Your connections: find people you know and add them
 // ---------------------------------------------------------------------------
 
+let connectedCloseness = new Map();   // id -> closeness for the signed-in user's connections
+
 function resetConnectionForm() {
-  connectionLookupVersion++;
-  $('connection-matches').replaceChildren();
-  $('connection-matches-field').hidden = true;
+  $('connection-matches').value = '';
   $('connection-details').hidden = true;
+  $('connection-chosen').replaceChildren();
+  $('add-connection').textContent = 'Add connection';
 }
+
+const connectionPicker = personAutocomplete({
+  input: $('connection-name'),
+  list: $('connection-suggestions'),
+  exclude: () => new Set(user ? [user.id] : []),          // not yourself
+  status: (person) => connectedCloseness.has(person.id)
+    ? `Connected · ${CLOSENESS_LABELS[connectedCloseness.get(person.id)]}` : '',
+  onPick(person) {
+    const existing = connectedCloseness.get(person.id);
+    $('connection-matches').value = person.id;
+    const details = [person.job_title, person.company].filter(Boolean).join(' · ');
+    $('connection-chosen').replaceChildren(
+      existing ? 'Updating ' : 'Adding ', element('strong', `${person.first_name} ${person.last_name}`),
+      details ? ` · ${details}` : '');
+    if (existing) $('closeness').value = String(existing);
+    $('add-connection').textContent = existing ? 'Update connection' : 'Add connection';
+    $('connection-details').hidden = false;
+    message('connection-message');
+    $('closeness').focus();
+  },
+  onClear: resetConnectionForm,
+});
 
 async function loadConnections() {
   if (!user) return;
@@ -463,6 +580,7 @@ async function loadConnections() {
   try {
     const people = await request('/me/connections');
     if (user?.id !== owner) return;
+    connectedCloseness = new Map(people.map((person) => [person.id, person.closeness]));
     $('connections-count').textContent = `${people.length} ${people.length === 1 ? 'person' : 'people'}`;
     if (!people.length && !$('connection-message').textContent) {
       message('connection-message', 'You haven\'t added anyone yet. Add a few people you know so we can find paths for you.');
@@ -492,43 +610,6 @@ async function loadConnections() {
   } catch (error) { if (user?.id === owner) message('connection-message', error.message, true); }
 }
 
-async function lookupConnection() {
-  const name = $('connection-name').value.trim();
-  if (!name) { message('connection-message', 'Enter a name first.', true); return; }
-  resetConnectionForm();
-  const version = connectionLookupVersion;
-  $('lookup-connection').disabled = true;
-  message('connection-message', 'Looking up people…');
-  try {
-    const data = await request(`/users/lookup?${new URLSearchParams({ q: name })}`);
-    if (version !== connectionLookupVersion) return;
-    const people = data.users.filter((person) => person.id !== user?.id);   // not yourself
-    if (!people.length) { message('connection-message', 'No one found. Try a first or last name.', true); return; }
-    const options = [new Option('Select a person…', '')];
-    for (const person of people) {
-      const details = [person.job_title, person.company, person.location].filter(Boolean).join(' · ');
-      options.push(new Option(`${person.first_name} ${person.last_name}${details ? ' — ' + details : ''}`, person.id));
-    }
-    $('connection-matches').replaceChildren(...options);
-    $('connection-matches-field').hidden = false;
-    if (people.length === 1) {
-      $('connection-matches').value = people[0].id;
-      $('connection-details').hidden = false;
-    }
-    message('connection-message', people.length === 1 ? '1 person found.' : `${people.length} people found. Choose the one you know.`);
-  } catch (error) {
-    if (version === connectionLookupVersion) message('connection-message', error.message, true);
-  } finally { $('lookup-connection').disabled = false; }
-}
-$('lookup-connection').addEventListener('click', lookupConnection);
-$('connection-name').addEventListener('keydown', (event) => {
-  if (event.key === 'Enter') { event.preventDefault(); lookupConnection(); }
-});
-$('connection-name').addEventListener('input', resetConnectionForm);
-$('connection-matches').addEventListener('change', () => {
-  $('connection-details').hidden = !$('connection-matches').value;
-});
-
 $('connection-form').addEventListener('submit', async (event) => {
   event.preventDefault();
   const otherId = Number($('connection-matches').value);
@@ -540,7 +621,7 @@ $('connection-form').addEventListener('submit', async (event) => {
       closeness: Number($('closeness').value),
       context: $('connection-context').value.trim() || null,
     });
-    message('connection-message', `Added ${added.first_name} ${added.last_name}. Search above to see your paths.`);
+    message('connection-message', `${$('add-connection').textContent.startsWith('Update') ? 'Updated' : 'Added'} ${added.first_name} ${added.last_name}. Search above to see your paths.`);
     $('connection-form').reset();
     resetConnectionForm();
     clearResults();

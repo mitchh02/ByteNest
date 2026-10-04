@@ -24,9 +24,9 @@
         <div id="seeker-field">
           <label>Start from<select id="seeker-mode"><option value="name">User name</option><option value="id">User ID</option></select></label>
           <div id="seeker-name-fields">
-            <label>User name<input id="seeker-name" type="search" maxlength="201" required placeholder="First or last name…"></label>
-            <button id="lookup-seeker" type="button" class="secondary">Find user</button>
-            <label id="seeker-matches-field" hidden>Choose a user<select id="seeker-matches" aria-describedby="seeker-message"></select></label>
+            <label for="seeker-name">User name</label>
+            <div class="combo"><input id="seeker-name" type="search" maxlength="201" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="seeker-suggestions" required aria-describedby="seeker-message" placeholder="Start typing a name…"><ul id="seeker-suggestions" class="suggestions" role="listbox" aria-label="Matching people" hidden></ul></div>
+            <select id="seeker-matches" hidden aria-hidden="true" tabindex="-1"></select>
           </div>
           <label id="seeker-id-field" hidden>Your user ID<input id="seeker" type="number" min="1" step="1" placeholder="e.g. 1"></label>
           <small>Choose a person in the demo network, or sign in to use your own profile.</small>
@@ -41,10 +41,10 @@
       <div class="section-heading"><div><p class="eyebrow">WHO YOU KNOW</p><h2 id="connections-heading">Your connections</h2></div><span id="connections-count" class="badge"></span></div>
       <p class="subtle">Add people you know. The closer you are, the stronger the paths through them.</p>
       <form id="connection-form">
-        <label>Find a person<input id="connection-name" type="search" maxlength="201" required placeholder="First or last name…"></label>
-        <button id="lookup-connection" type="button" class="secondary">Find</button>
-        <label id="connection-matches-field" hidden>Choose a person<select id="connection-matches"></select></label>
+        <div class="person-picker"><label for="connection-name">Find a person</label><div class="combo"><input id="connection-name" type="search" maxlength="201" autocomplete="off" spellcheck="false" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="connection-suggestions" placeholder="Start typing a name…"><ul id="connection-suggestions" class="suggestions" role="listbox" aria-label="Matching people" hidden></ul></div></div>
+        <input type="hidden" id="connection-matches">
         <div id="connection-details" hidden>
+          <p id="connection-chosen" class="chosen" aria-live="polite"></p>
           <label>How well do you know them?<select id="closeness">
             <option value="5">Close: we talk often</option>
             <option value="4" selected>Worked together</option>
