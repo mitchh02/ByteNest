@@ -21,7 +21,17 @@
       <div class="section-heading"><div><p class="eyebrow">MAKE THE FIRST CONNECTION</p><h2 id="search-heading">Find your way in</h2></div><span class="badge">Up to 6 hops</span></div>
       <label class="search-mode">Search by<select id="search-type"><option value="role">Job role</option><option value="manager">Hiring manager name</option></select></label>
       <form id="search-form">
-        <label id="seeker-field">Your user ID<input id="seeker" type="number" min="1" step="1" required placeholder="e.g. 1"><small>Use a seeded user ID to explore the demo network.</small></label>
+        <div id="seeker-field">
+          <label>Start from<select id="seeker-mode"><option value="name">User name</option><option value="id">User ID</option></select></label>
+          <div id="seeker-name-fields">
+            <label>User name<input id="seeker-name" type="search" maxlength="201" required placeholder="First or last name…"></label>
+            <button id="lookup-seeker" type="button" class="secondary">Find user</button>
+            <label id="seeker-matches-field" hidden>Choose a user<select id="seeker-matches" aria-describedby="seeker-message"></select></label>
+          </div>
+          <label id="seeker-id-field" hidden>Your user ID<input id="seeker" type="number" min="1" step="1" placeholder="e.g. 1"></label>
+          <small>Choose a person in the demo network, or sign in to use your own profile.</small>
+          <p id="seeker-message" class="message" role="status" aria-live="polite"></p>
+        </div>
         <label class="query-field"><span id="query-label">What role are you looking for?</span><input id="query" type="search" required maxlength="201" placeholder="Backend engineer, designer…" value="engineer"></label>
         <button id="search-button" type="submit">Find connections <span>↗</span></button>
       </form>

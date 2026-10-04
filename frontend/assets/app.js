@@ -3,6 +3,7 @@ const TOKEN_KEY = 'six_degrees_token';
 let user = null;
 let signup = false;
 let searchVersion = 0;
+let lookupVersion = 0;
 
 function message(id, text = '', error = false) {
   $(id).textContent = text;
@@ -50,12 +51,77 @@ function setUser(value) {
   clearResults();
   $('seeker').value = value ? value.id : '';
   $('seeker-field').hidden = Boolean(value);
-  $('seeker').required = !value;
+  resetSeekerLookup();
+  updateSeekerMode();
   $('account-button').textContent = value ? `${value.first_name} · Sign out` : 'Sign in';
   $('inbox-section').hidden = !value;
   $('inbox').replaceChildren();
   if (value) loadInbox();
 }
+
+function resetSeekerLookup() {
+  lookupVersion++;
+  $('seeker-matches').replaceChildren();
+  $('seeker-matches').required = false;
+  $('seeker-matches-field').hidden = true;
+  message('seeker-message');
+}
+
+function updateSeekerMode() {
+  const byName = $('seeker-mode').value === 'name';
+  $('seeker-name-fields').hidden = !byName;
+  $('seeker-id-field').hidden = byName;
+  $('seeker-name').required = !user && byName;
+  $('seeker').required = !user && !byName;
+}
+
+$('seeker-mode').addEventListener('change', () => {
+  resetSeekerLookup();
+  updateSeekerMode();
+  clearResults();
+});
+$('seeker-name').addEventListener('input', () => {
+  resetSeekerLookup();
+  clearResults();
+});
+$('seeker').addEventListener('input', clearResults);
+$('seeker-matches').addEventListener('change', clearResults);
+
+async function lookupSeeker() {
+  const name = $('seeker-name').value.trim();
+  if (!name) { message('seeker-message', 'Enter a user name first.', true); return; }
+  resetSeekerLookup();
+  clearResults();
+  const version = lookupVersion;
+  $('lookup-seeker').disabled = true;
+  message('seeker-message', 'Looking up users…');
+  try {
+    const data = await request(`/users/lookup?${new URLSearchParams({ q: name })}`);
+    if (version !== lookupVersion) return;
+    if (!data.users.length) {
+      message('seeker-message', 'No users found. Try a first or last name.', true);
+      return;
+    }
+    const options = [new Option('Select a user…', '')];
+    for (const person of data.users) {
+      const details = [person.job_title, person.company, person.location].filter(Boolean).join(' · ');
+      options.push(new Option(`${person.first_name} ${person.last_name}${details ? ' — ' + details : ''} (ID ${person.id})`, person.id));
+    }
+    $('seeker-matches').replaceChildren(...options);
+    $('seeker-matches').required = true;
+    $('seeker-matches-field').hidden = false;
+    if (data.users.length === 1) $('seeker-matches').value = data.users[0].id;
+    message('seeker-message', data.users.length === 25
+      ? 'Showing the first 25 matches. Enter a fuller name to narrow the results.'
+      : `${data.users.length} ${data.users.length === 1 ? 'user found.' : 'users found. Choose your starting profile.'}`);
+  } catch (error) {
+    if (version === lookupVersion) message('seeker-message', error.message, true);
+  } finally { $('lookup-seeker').disabled = false; }
+}
+$('lookup-seeker').addEventListener('click', lookupSeeker);
+$('seeker-name').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') { event.preventDefault(); lookupSeeker(); }
+});
 
 $('account-button').addEventListener('click', () => {
   if (user) {
@@ -151,7 +217,12 @@ $('search-type').addEventListener('change', () => {
 
 $('search-form').addEventListener('submit', async (event) => {
   event.preventDefault();
-  const seekerId = user?.id ?? Number($('seeker').value);
+  const seekerId = user?.id ?? Number($('seeker-mode').value === 'name'
+    ? $('seeker-matches').value : $('seeker').value);
+  if (!Number.isInteger(seekerId) || seekerId < 1) {
+    message('seeker-message', 'Find and choose a user before searching.', true);
+    return;
+  }
   const query = $('query').value.trim();
   const searchType = $('search-type').value;
   if (!query) { message('search-message', 'Enter a role or hiring manager name to search for.', true); return; }

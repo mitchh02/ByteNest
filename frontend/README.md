@@ -20,6 +20,10 @@ python backend/set_password.py 1 demo1234
 ```
 
 The script prints their login email. New accounts start without connections.
+To choose a starting profile by name, enter a first, last, or full name and click
+**Find user**. Choose a matching profile from the list; company, title, location,
+and ID help distinguish people with the same name. You can also switch **Start
+from** to **User ID**. Signed-in users search from their own profile automatically.
 Choose **Hiring manager name** in the search selector to find a person by first,
 last, or full name. Matching hiring managers can appear even without an open
 job posting. **Job role** searches open job titles and descriptions as before.

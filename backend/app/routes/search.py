@@ -1,10 +1,24 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from typing import Literal
 
 from .. import db, graph
 
 # A router groups related endpoints; main.py plugs it into the app
 router = APIRouter(tags=["search"])
+
+
+@router.get("/users/lookup")
+def lookup_users(q: str = Query(min_length=1, max_length=201)):
+    """Find public profiles by name, keeping duplicate names selectable by ID."""
+    name = " ".join(q.split())
+    if not name:
+        return {"users": []}
+    pattern = '%' + name.replace('!', '!!').replace('%', '!%').replace('_', '!_') + '%'
+    users = db.query(
+        """SELECT id, first_name, last_name, job_title, company, location FROM users
+           WHERE CONCAT_WS(' ', first_name, last_name) LIKE %s ESCAPE '!'
+           ORDER BY first_name, last_name, id LIMIT 25""", (pattern,))
+    return {"users": users}
 
 
 @router.get("/search")
