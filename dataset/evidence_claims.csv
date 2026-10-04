@@ -1,0 +1,105 @@
+claim_id,source_id,claim_type,summary,locator,observed_on,observation_year,observation_date_precision,checked_on
+claim_5e40c49178373481,src_b052722cb55b1923,cofounding_group,The source identifies the co-founders of Google.,Founders or founding-team paragraph,2019-12-03,2019,day,2026-10-04
+claim_4b336b0bb7a2e566,src_b052722cb55b1923,pair_relationship,Page and Brin describe sustained close work with Pichai during company leadership.,Paragraph on working with Sundar for more than 15 years,2019-12-03,2019,day,2026-10-04
+claim_dfb55b994bfd6870,src_4d3eafecee7a4654,pair_relationship,Jeff Dean reports directly to Sundar Pichai.,Reporting-line sentence,2023-04-20,2023,day,2026-10-04
+claim_4e658f72f26c7e02,src_4d3eafecee7a4654,pair_relationship,Dean and Hassabis are assigned joint leadership of strategic AI projects.,Chief Scientist paragraph,2023-04-20,2023,day,2026-10-04
+claim_ef912a0b1bdd57fa,src_c3d7e09a9e508ccd,pair_relationship,Pichai describes closely partnering with Raghavan and repeatedly relying on Fox.,Chief Technologist and Nick Fox paragraphs,2024-10-17,2024,day,2026-10-04
+claim_3947830ab658f553,src_c3d7e09a9e508ccd,pair_relationship,Fox collaborated closely with Raghavan on Knowledge and Information strategy.,Nick Fox leadership paragraph,2024-10-17,2024,day,2026-10-04
+claim_e0708d463cda2184,src_7047f90c8d2315d7,research_authorship,Dean and Ghemawat co-authored the original MapReduce paper.,Author list,,2004,year,2026-10-04
+claim_894ac0d46f6218b9,src_97f9555131ac5413,research_authorship,Dean and Ghemawat again co-authored MapReduce research.,Author list,,2010,year,2026-10-04
+claim_751481202acb6733,src_009ef689a2097b8c,pair_relationship,Beda describes creating Kubernetes with Burns and McLuckie.,Paragraph beginning Concretely,2018-06-06,2018,day,2026-10-04
+claim_aab2eaa09a5e2fcb,src_009ef689a2097b8c,small_working_team,Beda names the five engineers who joined their small prelaunch team.,Paragraph beginning After we got the nod,2018-06-06,2018,day,2026-10-04
+claim_06716a00604b903d,src_b9a72dca35dbcefb,book_authorship,"Burns, Beda, Hightower and Evenson co-authored the third edition of Kubernetes: Up and Running.",Copyright page and revision history,2022-08-02,2022,day,2026-10-04
+claim_40992c6c52b753da,src_f5091520447d2f1c,small_working_team,Pike describes designing Go together with Griesemer and Thompson.,Rob Pike quotation,2020-08-27,2020,day,2026-10-04
+claim_904998cead57d5bb,src_5677cfd6d3c9a267,pair_relationship,Gerrand describes working with Fitzpatrick to restructure godoc.,First paragraph,2013-07-18,2013,day,2026-10-04
+claim_41628d40807e8b89,src_eaa6991e652a96cf,pair_relationship,Kevin Scott reports directly to Satya Nadella.,Reporting-line sentence,2017-01-24,2017,day,2026-10-04
+claim_6daf452fcff98fbb,src_ec0e82f4159a3e0d,pair_relationship,Kathleen Hogan reports directly to Satya Nadella.,Reporting-line sentence,2025-03-19,2025,day,2026-10-04
+claim_4a87084b33f012b1,src_ec0e82f4159a3e0d,pair_relationship,Amy Coleman reports directly to Satya Nadella.,Reporting-line sentence,2025-03-19,2025,day,2026-10-04
+claim_6339a2dab79c82c4,src_ec0e82f4159a3e0d,pair_relationship,Coleman is described as a trusted adviser to Hogan across major workstreams.,Amy Coleman experience paragraph,2025-03-19,2025,day,2026-10-04
+claim_875a043bae6ca2c7,src_27031dd40d242e1c,pair_relationship,Mustafa Suleyman reports directly to Satya Nadella.,Reporting-line sentence,2024-03-19,2024,day,2026-10-04
+claim_061f885f0d2489cb,src_27031dd40d242e1c,pair_relationship,Karén Simonyan reports directly to Mustafa Suleyman.,Reporting-line sentence,2024-03-19,2024,day,2026-10-04
+claim_044d9a731ad2c517,src_27031dd40d242e1c,pair_relationship,Mikhail Parakhin reports directly to Mustafa Suleyman.,Reporting-line sentence,2024-03-19,2024,day,2026-10-04
+claim_adc036e2ee26bc0a,src_27031dd40d242e1c,pair_relationship,Misha Bilenko reports directly to Mustafa Suleyman.,Reporting-line sentence,2024-03-19,2024,day,2026-10-04
+claim_941379b308f57c49,src_27031dd40d242e1c,pair_relationship,Jha is described as partnering closely with Suleyman on Copilot products.,Rajesh Jha paragraph,2024-03-19,2024,day,2026-10-04
+claim_5b3a5cc78b78cbc1,src_73106df3d51d82af,pair_relationship,Eric Boyd reports directly to Jay Parikh.,Reporting-line sentence,2025-01-13,2025,day,2026-10-04
+claim_380e9053446363b8,src_73106df3d51d82af,pair_relationship,Jason Taylor reports directly to Jay Parikh.,Reporting-line sentence,2025-01-13,2025,day,2026-10-04
+claim_2dcba359d9c70d11,src_73106df3d51d82af,pair_relationship,Julia Liuson reports directly to Jay Parikh.,Reporting-line sentence,2025-01-13,2025,day,2026-10-04
+claim_4fabc9c98de0a12d,src_73106df3d51d82af,pair_relationship,Tim Bozarth reports directly to Jay Parikh.,Reporting-line sentence,2025-01-13,2025,day,2026-10-04
+claim_d3940c2ced499c45,src_73106df3d51d82af,pair_relationship,"Parikh is assigned close work with Guthrie, Jha, Bell, Suleyman and Scott.",Paragraph following reporting lines,2025-01-13,2025,day,2026-10-04
+claim_70297c16057c2c29,src_3cb83222d7fb70fc,pair_relationship,Hayete Gallot reports directly to Satya Nadella.,Reporting-line sentence,2026-02-04,2026,day,2026-10-04
+claim_ac53ef25ef1f0e2c,src_3cb83222d7fb70fc,pair_relationship,Charlie Bell reports directly to Satya Nadella.,Reporting-line sentence,2026-02-04,2026,day,2026-10-04
+claim_8c6c3e39faffebcb,src_3cb83222d7fb70fc,pair_relationship,Ales Holecek reports directly to Hayete Gallot.,Reporting-line sentence,2026-02-04,2026,day,2026-10-04
+claim_7cb7e1caf362d5f2,src_3cb83222d7fb70fc,pair_relationship,Bell is assigned close work with Guthrie and Anand on engineering quality.,Final engineering quality paragraph,2026-02-04,2026,day,2026-10-04
+claim_820f485265b62293,src_1af1f624486816e2,pair_relationship,Natasha Crampton reports directly to Brad Smith.,Reporting-line sentence,2023-05-01,2023,day,2026-10-04
+claim_0299bc123c83197d,src_1af1f624486816e2,pair_relationship,Smith and Scott jointly chair the regularly convening Responsible AI Council.,Leadership commitment paragraph,2023-05-01,2023,day,2026-10-04
+claim_5c8069f853626916,src_5604e6879605b8c8,pair_relationship,Ozzie and Mundie report to Gates during the leadership transition.,Reporting-line paragraph,2006-06-15,2006,day,2026-10-04
+claim_2672130b579bfff8,src_5604e6879605b8c8,pair_relationship,Mundie partners with Smith on intellectual property and technology policy.,Craig Mundie responsibilities paragraph,2006-06-15,2006,day,2026-10-04
+claim_20fd23cc6d091bf9,src_dc7aa75975463f04,cofounding_group,The source identifies the co-founders of Google DeepMind.,Founders or founding-team paragraph,2019-12-05,2019,day,2026-10-04
+claim_bb3ddaca4005d4ba,src_829b9621cc17045d,pair_relationship,Hassabis and Jumper jointly developed AlphaFold and shared its Nobel recognition.,Opening paragraph,2024-10-09,2024,day,2026-10-04
+claim_67ef73d04052c29f,src_7d939ac189435e74,pair_relationship,Zuckerberg identifies Sandberg as a longstanding friend and business partner.,Opening and partnership paragraphs,2022-06-01,2022,day,2026-10-04
+claim_b32a32b105c3a7f5,src_ab9d8915d7f55433,pair_relationship,Zuckerberg explicitly describes Schroepfer as a close friend and partner.,Close partnership paragraph,2021-09-22,2021,day,2026-10-04
+claim_1b077e7643d94dd9,src_ab9d8915d7f55433,pair_relationship,Zuckerberg and Schroepfer worked closely with Bosworth on organizational planning.,CTO transition paragraph,2021-09-22,2021,day,2026-10-04
+claim_efb8cb120953825f,src_7d939ac189435e74,pair_relationship,Lori Goler reports directly to Mark Zuckerberg.,Reporting-line sentence,2022-06-01,2022,day,2026-10-04
+claim_ae594b0e99c52d98,src_7d939ac189435e74,pair_relationship,Nick Clegg reports directly to Mark Zuckerberg.,Reporting-line sentence,2022-06-01,2022,day,2026-10-04
+claim_2eba9c734f21edad,src_7d939ac189435e74,pair_relationship,Jennifer Newstead reports directly to Mark Zuckerberg.,Reporting-line sentence,2022-06-01,2022,day,2026-10-04
+claim_4c4140efad3ef502,src_7d939ac189435e74,pair_relationship,Marne Levine reports directly to Javier Olivan.,Reporting-line sentence,2022-06-01,2022,day,2026-10-04
+claim_71c9cf9bbf5b6c68,src_7d939ac189435e74,pair_relationship,Molly Cutler reports directly to Naomi Gleit.,Reporting-line sentence,2022-06-01,2022,day,2026-10-04
+claim_84ea31d8da5abb4d,src_7d939ac189435e74,pair_relationship,Justin Osofsky reports directly to Chris Cox.,Reporting-line sentence,2022-06-01,2022,day,2026-10-04
+claim_6bb580accb38d0fc,src_7d939ac189435e74,pair_relationship,Zuckerberg describes the named transition leaders as longstanding close colleagues.,Paragraph beginning These are all talented,2022-06-01,2022,day,2026-10-04
+claim_5b62ba5785839a4b,src_778d7a2017219a51,pair_relationship,Jassy describes years of directly leading and developing Garman and Selipsky.,Leadership history and thanks paragraphs,2024-05-14,2024,day,2026-10-04
+claim_7ceed336c82c8797,src_c70bc97d438690df,pair_relationship,Peter DeSantis reports directly to Andy Jassy.,Reporting-line sentence,,,unknown,2026-10-04
+claim_56cae337dbe9c7d9,src_3ce661bbc7fdca03,cofounding_group,The source identifies the co-founders of NVIDIA.,Founders or founding-team paragraph,2023-09-26,2023,day,2026-10-04
+claim_18a62c708e97847b,src_3ce661bbc7fdca03,pair_relationship,The three NVIDIA co-founders are explicitly described as friends at founding.,Founding meeting at Dennys paragraph,2023-09-26,2023,day,2026-10-04
+claim_ef4694533b7411a8,src_dd4d6607280ac89d,pair_relationship,Anandkumar states that she will report to NVIDIA chief scientist Dally.,NVIDIA reporting paragraph,2018-09-14,2018,day,2026-10-04
+claim_814626c6429a094a,src_24ffaf201d38258a,research_authorship,"Buck lists repeated graphics research with Hanrahan, Humphreys and Eldridge; Purcell appears on two projects.",Publications and WireGL project description,,,unknown,2026-10-04
+claim_d7f0c8a7bdfd91b2,src_11b59fd8b201a7b6,pair_relationship,Deirdre O’Brien reports directly to John Ternus.,Reporting-line sentence,,,unknown,2026-10-04
+claim_abee094a7e9e79a7,src_b6c66b725a675760,pair_relationship,Craig Federighi reports directly to John Ternus.,Reporting-line sentence,,,unknown,2026-10-04
+claim_cf4eff064fac1c3e,src_9ac0e7ba1a071d51,pair_relationship,Johny Srouji reports directly to John Ternus.,Reporting-line sentence,,,unknown,2026-10-04
+claim_b961ad9cb0ba8fc3,src_956d4cc554c4cb6d,pair_relationship,Eddy Cue reports directly to John Ternus.,Reporting-line sentence,,,unknown,2026-10-04
+claim_f53e60ad59f9dde1,src_7d154b3f15d7178e,pair_relationship,Sabih Khan reports directly to John Ternus.,Reporting-line sentence,,,unknown,2026-10-04
+claim_8bef15c2f9700e6a,src_363b5bdc64968163,pair_relationship,Dan Riccio reports directly to Tim Cook.,Reporting-line sentence,2021-01-25,2021,day,2026-10-04
+claim_27f254fb8f6324eb,src_79f10420b8355151,pair_relationship,Sabih Khan reports directly to Jeff Williams.,Reporting-line sentence,2019-06-27,2019,day,2026-10-04
+claim_0d13b9a2677e303c,src_79f10420b8355151,pair_relationship,Williams describes more than twenty years of direct work with Khan.,Williams statement,2019-06-27,2019,day,2026-10-04
+claim_09b9fc0f7a824791,src_c0f94a4efaca7a84,cofounding_group,The source identifies the co-founders of Anthropic.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_f4a90dde5de61a58,src_4dc07095882ddda6,small_working_team,"The announcement names OpenAIs research director, CTO and initial research engineering members.",Looking forward and founding members paragraphs,2015-12-11,2015,day,2026-10-04
+claim_dacb844960a40d1f,src_65d1ecadfd03b43f,pair_relationship,Fidji Simo reports directly to Sam Altman.,Reporting-line sentence,2025-05-07,2025,day,2026-10-04
+claim_b4b22831ef3b3d23,src_9cee40b637f69874,research_authorship,Sutskever and Vinyals co-authored sequence-to-sequence research.,Author list,2014-09-10,2014,day,2026-10-04
+claim_b68a668aaacc604a,src_6565f18cd7f8a060,research_authorship,"Sutskever, Vinyals and Zaremba co-authored recurrent-network regularization.",Author list,2014-09-08,2014,day,2026-10-04
+claim_86036d643db00bcd,src_e778b23064e784e2,research_authorship,Four named researchers jointly authored the original ResNet paper.,Author list,2015-12-10,2015,day,2026-10-04
+claim_5210c4c9af34e251,src_b2a3e04a0400117c,research_authorship,The same four researchers authored a follow-up ResNet paper.,Author list,2016-03-16,2016,day,2026-10-04
+claim_c50010b58249a63a,src_a72110636dd0411a,research_authorship,"He, Dollar and Girshick jointly authored Mask RCNN.",Author list,2017-03-20,2017,day,2026-10-04
+claim_2f8b05232f78fa03,src_576dfadd09fbb997,research_authorship,"He, Dollar and Girshick jointly authored ResNeXt.",Author list,2016-11-16,2016,day,2026-10-04
+claim_e6a42a13d5a95c4d,src_7a67ba84a03883ba,small_working_team,The developer introduction identifies the three-person early GitHub development team.,Developer introductions,2008-05-27,2008,day,2026-10-04
+claim_ccf1a3a91b100444,src_54f2644d168d8641,small_working_team,Preston-Werner identifies Chacon and three other developers as the four-person staff.,Four full-time employees paragraph,2008-10-19,2008,day,2026-10-04
+claim_3178f2aa0d51e067,src_4e2ad49621837c9e,cofounding_group,The source identifies the co-founders of HashiCorp.,Founders or founding-team paragraph,2023-12-14,2023,day,2026-10-04
+claim_3202b5022d6556eb,src_4e2ad49621837c9e,pair_relationship,Hashimoto explicitly calls Dadgar and McJannet close friends and longstanding coworkers.,Friendship paragraph,2023-12-14,2023,day,2026-10-04
+claim_105916fe6a72ffa0,src_3c9cbea096208544,cofounding_group,The source identifies the co-founders of Elastic.,Founders or founding-team paragraph,,2017,year,2026-10-04
+claim_c9a7fc3a5e20a67f,src_3c9cbea096208544,pair_relationship,Schuurman and Banon describe sustained close partnership and joint company direction.,Copilot and flexible partnership paragraphs,,2017,year,2026-10-04
+claim_c305e3200a7843e3,src_3c9cbea096208544,pair_relationship,Schuurman identifies Johnson as his SpringSource co-founder and board colleague.,Investors and board members paragraph,,2017,year,2026-10-04
+claim_4c71303ea7f49a51,src_931d0a3831eeecf3,cofounding_group,The source identifies the co-founders of Stripe.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_0a431268d70788cf,src_f5339ef58fe0ee04,cofounding_group,The source identifies the co-founders of MongoDB.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_fd90600635fc9518,src_e12a91ba769c1bcf,cofounding_group,The source identifies the co-founders of Confluent.,Founders or founding-team paragraph,,2019,year,2026-10-04
+claim_214f0afb54109101,src_8efba02fba46cffb,cofounding_group,The source identifies the co-founders of Cloudflare.,Founders or founding-team paragraph,,2018,year,2026-10-04
+claim_caa2695ac64d2c09,src_88a8c8c064f31f78,cofounding_group,The source identifies the co-founders of Datadog.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_859dff3bfe25eb6e,src_4b781df731ceaa2d,cofounding_group,The source identifies the co-founders of Hugging Face.,Founders or founding-team paragraph,,2025,year,2026-10-04
+claim_aa91a223893b1033,src_6d42fa546ebeb1ca,cofounding_group,The source identifies the co-founders of Figma.,Founders or founding-team paragraph,,2017,year,2026-10-04
+claim_e8ec18f2d5488090,src_6d42fa546ebeb1ca,pair_relationship,Field describes personally hiring and building company leadership with Wittman and Rasmussen.,New hires and working experience paragraphs,,2017,year,2026-10-04
+claim_9c4e1c085e5306cb,src_bf4e49580252479e,cofounding_group,The source identifies the co-founders of Snowflake.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_716f02713e70d19c,src_bf4e49580252479e,cofounding_group,Dageville and Cruanes are described as Snowflake co-founders.,Cofounder discussion,,,unknown,2026-10-04
+claim_bd5970a61d9b2625,src_f64c969cf2fb43e5,cofounding_group,Snowflake identifies Zukowski as its co-founder.,Founder description,,,unknown,2026-10-04
+claim_646d5fbc9162c7f8,src_f5a2cf506ffeeaa6,cofounding_group,The source identifies the co-founders of Databricks.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_c52af9a71ac5bee2,src_a7299973e90e9e06,cofounding_group,The CMA identifies Suleyman and Simonyan as Inflection co-founders hired by Microsoft in March 2024.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_8105813cd7623f14,src_5841f373e3338d72,cofounding_group,The source identifies the co-founders of Supabase.,Founders or founding-team paragraph,2024-11-22,2024,day,2026-10-04
+claim_2d78a533a013ec07,src_b792c1076f5afbb3,pair_relationship,Copplestone describes inviting his friend Wilson to build Supabase together.,Origin of the company paragraph,2021-04-02,2021,day,2026-10-04
+claim_7464390799fc321c,src_788237ffb8ff6af7,cofounding_group,The source identifies the co-founders of Notion.,Founders or founding-team paragraph,2024-03-21,2024,day,2026-10-04
+claim_97972f9347395949,src_476708dbf8c1a9fd,cofounding_group,The source identifies the co-founders of Linear.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_e36e96b397a21129,src_d0d741f15a29583a,pair_relationship,Saarinen describes building an earlier company with Lallo before Linear.,Opening paragraph,2021-01-21,2021,day,2026-10-04
+claim_bae52e313acd07f0,src_b529bd0ec18801e5,cofounding_group,The source identifies the co-founders of Atlassian.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_a0ac87266837bd83,src_58f1407947b6727e,cofounding_group,The source identifies the co-founders of Airbnb.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_2eb497247c385581,src_1432035095cf5faa,cofounding_group,The source identifies the co-founders of Canva.,Founders or founding-team paragraph,,,unknown,2026-10-04
+claim_b26f1552836e063d,src_038862cd74c6150f,small_working_team,"Hightower, Lengstorf and Willis work together as host and judges on The Full Stack.",Host and judges section,2026-07-30,2026,day,2026-10-04
+claim_09da541b271b95a9,src_ba5d3ee45fd3a974,pair_relationship,Mishra explicitly calls Hightower a very good friend and describes years of mentorship and project advice.,"Transcript introduction, lines 98–117",2020-06-25,2020,day,2026-10-04
+claim_65458261ff8cdd89,src_ba5d3ee45fd3a974,small_working_team,Mishra identifies Jackson as his collaborator in creating their interview series.,"Transcript introduction, line 98",2020-06-25,2020,day,2026-10-04
+claim_d288977c9ee11938,src_e679d8c4a75cd87c,pair_relationship,"Vargo describes Hashimoto and Dadgar hiring him, individual onboarding meetings, and their research and implementation of Vault.","Interview hiring, onboarding and Vault sections, lines 151–171",2018-08-23,2018,day,2026-10-04
+claim_81a0a3657a846551,src_e679d8c4a75cd87c,pair_relationship,Vargo describes jointly developing Consul Template and Vault with Dadgar.,"Consul Template and Vault development sections, lines 156–171",2018-08-23,2018,day,2026-10-04
+claim_656ebdd40f53bf53,src_a7f5f2fc3a98a9ad,pair_relationship,Beth Galetti reports directly to Andy Jassy.,Reporting-line sentence,,2024,year,2026-10-04

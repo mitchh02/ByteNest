@@ -1,0 +1,32 @@
+organization_id,name,official_domain,organization_kind
+org_ce770667e5f9b0d8,Google,google.com,company
+org_1b1862415f2d9eef,Google DeepMind,deepmind.google,company
+org_c7bac46904be785c,Microsoft,microsoft.com,company
+org_622b46e8e7fee12d,Kubernetes author collaboration,oreilly.com,author_collaboration
+org_4f749de7c24fe967,Meta,meta.com,company
+org_49d2dc07acd9eff5,Amazon,amazon.com,company
+org_0890f456684a70f1,NVIDIA,nvidia.com,company
+org_34df123200dc34d6,Stanford graphics research collaboration,graphics.stanford.edu,research_collaboration
+org_f223faa96f229162,Apple,apple.com,company
+org_744205e43529c1fc,Anthropic,anthropic.com,company
+org_8b7d1a3187ab355d,OpenAI,openai.com,company
+org_f911e414cf6bdfc5,GitHub,github.com,company
+org_b9c2dcad6e3c2965,HashiCorp,hashicorp.com,company
+org_5e7c4d821aae0157,Elastic,elastic.co,company
+org_961a6062ba1ba2d8,Stripe,stripe.com,company
+org_91231ff9ab6685fa,MongoDB,mongodb.com,company
+org_629b4925e91e03ca,Confluent,confluent.io,company
+org_f9191531404c4016,Cloudflare,cloudflare.com,company
+org_8bd7b9fdff699198,Datadog,datadoghq.com,company
+org_1b817f9efc97800a,Hugging Face,huggingface.co,company
+org_ce46041005a8aa0d,Figma,figma.com,company
+org_1dbd59f661d68b90,Snowflake,snowflake.com,company
+org_5b5fea64c7467736,Databricks,databricks.com,company
+org_fe298ed1c2957dd7,Inflection AI,inflection.ai,company
+org_fe7ceb7816ed0e35,Supabase,supabase.com,company
+org_73bcfe98830b53a1,Notion,notion.com,company
+org_e6950b45d25c2027,Linear,linear.app,company
+org_b63b20d5b5699a25,Atlassian,atlassian.com,company
+org_1d927621f5321e99,Airbnb,airbnb.com,company
+org_2f73335c712c9214,Canva,canva.com,company
+org_10b92bc0b47eab33,CodeTV,codetv.dev,company

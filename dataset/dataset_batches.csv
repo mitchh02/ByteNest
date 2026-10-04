@@ -1,0 +1,2 @@
+batch_id,created_on,schema_version,max_total_hops,status,weight_policy
+batch_001,2026-10-04,1.0.0,6,seed_batch_with_continuation,Routing weights rank evidence categories; they are not probabilities of acquaintance or successful referral.

@@ -1,0 +1,218 @@
+role_id,person_id,organization_id,role_label,role_category,source_id,observed_on,observation_year,observation_date_precision,observation_scope,hiring_authority,checked_on
+role_cf0ccdbe368fbe4c,person_e68fa963cbe43932,org_ce770667e5f9b0d8,Co-founder,founder,src_b052722cb55b1923,2019-12-03,2019,day,founding_identity,not_established,2026-10-04
+role_eba81b11e703c894,person_9e418db45b6b832e,org_ce770667e5f9b0d8,Co-founder,founder,src_b052722cb55b1923,2019-12-03,2019,day,founding_identity,not_established,2026-10-04
+role_c25a49de7bc49a6c,person_fd7e38ea7d426e33,org_ce770667e5f9b0d8,Google and Alphabet CEO,executive,src_b052722cb55b1923,2019-12-03,2019,day,historical,not_established,2026-10-04
+role_7d8241634a3e1273,person_fd7e38ea7d426e33,org_ce770667e5f9b0d8,CEO,executive,src_4d3eafecee7a4654,2023-04-20,2023,day,historical,not_established,2026-10-04
+role_f9b384dd91a4b325,person_83adfc92791a12dc,org_ce770667e5f9b0d8,Chief Scientist,engineering_leadership,src_4d3eafecee7a4654,2023-04-20,2023,day,historical,not_established,2026-10-04
+role_098178f5da1809a5,person_60ef9216e2181e06,org_1b1862415f2d9eef,CEO,engineering_leadership,src_4d3eafecee7a4654,2023-04-20,2023,day,historical,not_established,2026-10-04
+role_9b9db17bd659dbce,person_08565e7db2968141,org_ce770667e5f9b0d8,Chief Technologist,engineering_leadership,src_c3d7e09a9e508ccd,2024-10-17,2024,day,historical,not_established,2026-10-04
+role_b9f94d8c40163197,person_de62da53da358344,org_ce770667e5f9b0d8,SVP Knowledge and Information,engineering_leadership,src_c3d7e09a9e508ccd,2024-10-17,2024,day,historical,not_established,2026-10-04
+role_22f30a5ef6936b4e,person_723345a1fd367905,org_ce770667e5f9b0d8,MapReduce co-designer,engineering,src_7047f90c8d2315d7,,2004,year,historical,not_established,2026-10-04
+role_5e919d8915cd7398,person_38425622c815dd55,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_798e7ee43bb68434,person_a25de5ac62e1d5c8,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_451be32d62b4d6b4,person_b3cd0d2a9290e49a,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_ee53f7173dbda76a,person_2ceef3be0f3e2b18,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_73024d81f7619570,person_345f8a6c7e708cd9,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_60d01c4e43478e13,person_7150286d29a397c2,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_0b4c83af9edc9ee7,person_23f87467e0f2073f,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_688c2ae3b6d6f76a,person_e0ce59d3069e0686,org_ce770667e5f9b0d8,Early Kubernetes engineering team,engineering,src_009ef689a2097b8c,2018-06-06,2018,day,historical,not_established,2026-10-04
+role_61ae6b3adc7381b7,person_a25de5ac62e1d5c8,org_c7bac46904be785c,Distinguished engineer,engineering_leadership,src_4f6817887eee2100,2018-03-26,2018,day,historical,not_established,2026-10-04
+role_4bced0a0d2a39894,person_7c4a2961be788a20,org_ce770667e5f9b0d8,Staff Developer Advocate,engineering,src_ba5d3ee45fd3a974,2020-06-25,2020,day,historical,not_established,2026-10-04
+role_08ab7896021b4abe,person_38425622c815dd55,org_622b46e8e7fee12d,"Co-author, Kubernetes: Up and Running, third edition",engineering,src_b9a72dca35dbcefb,2022-08-02,2022,day,historical,not_established,2026-10-04
+role_0f7213c8ffd98445,person_a25de5ac62e1d5c8,org_622b46e8e7fee12d,"Co-author, Kubernetes: Up and Running, third edition",engineering,src_b9a72dca35dbcefb,2022-08-02,2022,day,historical,not_established,2026-10-04
+role_8f500673754be436,person_7c4a2961be788a20,org_622b46e8e7fee12d,"Co-author, Kubernetes: Up and Running, third edition",engineering,src_b9a72dca35dbcefb,2022-08-02,2022,day,historical,not_established,2026-10-04
+role_38564b6897f6a287,person_15cb95fba1cecfac,org_622b46e8e7fee12d,"Co-author, Kubernetes: Up and Running, third edition",engineering,src_b9a72dca35dbcefb,2022-08-02,2022,day,historical,not_established,2026-10-04
+role_a9281e0a97d81c35,person_6278f6a2c46992c5,org_ce770667e5f9b0d8,Go language co-creator,engineering,src_f5091520447d2f1c,2020-08-27,2020,day,historical,not_established,2026-10-04
+role_b7335adbfa0810c1,person_8775ac3f0eabc7c1,org_ce770667e5f9b0d8,Go language co-creator,engineering,src_f5091520447d2f1c,2020-08-27,2020,day,historical,not_established,2026-10-04
+role_d8b95936fdaf8daa,person_c1e7e26db9636eef,org_ce770667e5f9b0d8,Go language co-creator,engineering,src_f5091520447d2f1c,2020-08-27,2020,day,historical,not_established,2026-10-04
+role_bf8c4c1b4b627460,person_add982a3108b87c8,org_ce770667e5f9b0d8,Go tooling developer,engineering,src_5677cfd6d3c9a267,2013-07-18,2013,day,historical,not_established,2026-10-04
+role_2270c2d79e2867f0,person_fb0f1cc1afbc5be8,org_ce770667e5f9b0d8,Go tooling developer,engineering,src_5677cfd6d3c9a267,2013-07-18,2013,day,historical,not_established,2026-10-04
+role_582d4272e67a2907,person_5606444dc05c1b98,org_c7bac46904be785c,CEO,executive,src_eaa6991e652a96cf,2017-01-24,2017,day,historical,not_established,2026-10-04
+role_4b352fd6212b3612,person_aed957f729ddaa09,org_c7bac46904be785c,CTO,engineering_leadership,src_eaa6991e652a96cf,2017-01-24,2017,day,historical,not_established,2026-10-04
+role_5e3ba7b1c05ecb38,person_5606444dc05c1b98,org_c7bac46904be785c,CEO,executive,src_ec0e82f4159a3e0d,2025-03-19,2025,day,historical,not_established,2026-10-04
+role_c3b7c306bd5e8420,person_0469e825478bc5ba,org_c7bac46904be785c,EVP Office of Strategy and Transformation,engineering_leadership,src_ec0e82f4159a3e0d,2025-03-19,2025,day,historical,not_established,2026-10-04
+role_b0432d9d83efd1be,person_4d3d93e08395c3a2,org_c7bac46904be785c,EVP Chief People Officer,talent_leadership,src_ec0e82f4159a3e0d,2025-03-19,2025,day,historical,talent_leadership_documented,2026-10-04
+role_63aeddcb75f6362b,person_5606444dc05c1b98,org_c7bac46904be785c,CEO,executive,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_5f083dabc8178063,person_901da57b0d41cf92,org_c7bac46904be785c,EVP and CEO Microsoft AI,engineering_leadership,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_06bb775dc522c7af,person_37258487f69f06fc,org_c7bac46904be785c,Chief Scientist,engineering_leadership,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_e0ea4afc926ccfba,person_901da57b0d41cf92,org_c7bac46904be785c,CEO Microsoft AI,executive,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_7e9d016d5aedeb2d,person_233344ed4b61f2cb,org_c7bac46904be785c,Copilot Bing and Edge leader,engineering_leadership,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_9168bb2cfa801dc4,person_a8b4476b3a8345d8,org_c7bac46904be785c,GenAI leader,engineering_leadership,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_a79f077b80a833d9,person_571d331325cc0fcb,org_c7bac46904be785c,EVP Experiences and Devices,engineering_leadership,src_27031dd40d242e1c,2024-03-19,2024,day,historical,not_established,2026-10-04
+role_7bb21150f9b9bd3d,person_c35b8e5e7cfbc260,org_c7bac46904be785c,EVP CoreAI,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_5b00c86938979065,person_6597161ac0d10d67,org_c7bac46904be785c,CoreAI engineering leader,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_4dcf1517d6a7e90f,person_fbbfe5f5ae88fe3e,org_c7bac46904be785c,CoreAI engineering leader,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_36ec2ab23043d3b7,person_1219d50bd775c0ec,org_c7bac46904be785c,CoreAI engineering leader,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_c056fc13b8eef7d3,person_3b937d3c2c2d858c,org_c7bac46904be785c,CoreAI engineering leader,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_e643ba25968e92bf,person_0a55e7e168d03ef0,org_c7bac46904be785c,Cloud and AI leader,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_a51420643e8c3d15,person_69038cc51346a470,org_c7bac46904be785c,Engineering leader,engineering_leadership,src_73106df3d51d82af,2025-01-13,2025,day,historical,not_established,2026-10-04
+role_72b22289f2904e17,person_5606444dc05c1b98,org_c7bac46904be785c,CEO,executive,src_3cb83222d7fb70fc,2026-02-04,2026,day,historical,not_established,2026-10-04
+role_0b8c9d9c808f8695,person_0c45d3bc6bec3061,org_c7bac46904be785c,EVP Security,engineering_leadership,src_3cb83222d7fb70fc,2026-02-04,2026,day,historical,not_established,2026-10-04
+role_27757aa3f717de8a,person_69038cc51346a470,org_c7bac46904be785c,Engineering quality leader,engineering_leadership,src_3cb83222d7fb70fc,2026-02-04,2026,day,historical,not_established,2026-10-04
+role_35db794ae21f7fd3,person_4801b6427f27af39,org_c7bac46904be785c,Chief Architect for Security,engineering_leadership,src_3cb83222d7fb70fc,2026-02-04,2026,day,historical,not_established,2026-10-04
+role_e884231a2ef68add,person_e612f87a7ae6981e,org_c7bac46904be785c,Customer-success engineering partner,engineering_leadership,src_3cb83222d7fb70fc,2026-02-04,2026,day,historical,not_established,2026-10-04
+role_4b8b54e2e671fd00,person_a4f98e0965988eab,org_c7bac46904be785c,Vice Chair and President,executive,src_1af1f624486816e2,2023-05-01,2023,day,historical,not_established,2026-10-04
+role_3fb8ae920f723b76,person_1faab498b359d3ca,org_c7bac46904be785c,Chief Responsible AI Officer,engineering_leadership,src_1af1f624486816e2,2023-05-01,2023,day,historical,not_established,2026-10-04
+role_9c2b730e0689bda9,person_d666ea35263e49dc,org_c7bac46904be785c,Chairman and Chief Software Architect,engineering_leadership,src_5604e6879605b8c8,2006-06-15,2006,day,historical,not_established,2026-10-04
+role_62b838f85c00c842,person_a17feb6594d2fb5e,org_c7bac46904be785c,CEO,engineering_leadership,src_5604e6879605b8c8,2006-06-15,2006,day,historical,not_established,2026-10-04
+role_0359bea382a0800c,person_59d82cebb94d4d96,org_c7bac46904be785c,Chief Software Architect,engineering_leadership,src_5604e6879605b8c8,2006-06-15,2006,day,historical,not_established,2026-10-04
+role_3dac667f55025595,person_93652a24ceba3bb9,org_c7bac46904be785c,Chief Research and Strategy Officer,engineering_leadership,src_5604e6879605b8c8,2006-06-15,2006,day,historical,not_established,2026-10-04
+role_6b20fc1209ca2794,person_60ef9216e2181e06,org_1b1862415f2d9eef,Co-founder,founder,src_dc7aa75975463f04,2019-12-05,2019,day,founding_identity,not_established,2026-10-04
+role_3f14ea1962be94d9,person_9ae26fe5377a0a3b,org_1b1862415f2d9eef,Co-founder,founder,src_dc7aa75975463f04,2019-12-05,2019,day,founding_identity,not_established,2026-10-04
+role_44097e35c1dccdcc,person_901da57b0d41cf92,org_1b1862415f2d9eef,Co-founder,founder,src_dc7aa75975463f04,2019-12-05,2019,day,founding_identity,not_established,2026-10-04
+role_135406f39af2193a,person_d940658cd5d13b31,org_1b1862415f2d9eef,Chief Operating Officer,engineering_leadership,src_dc7aa75975463f04,2019-12-05,2019,day,historical,not_established,2026-10-04
+role_64d5bf6fb6352b9a,person_77b0c9a93079fa61,org_1b1862415f2d9eef,VP Research,engineering_leadership,src_dc7aa75975463f04,2019-12-05,2019,day,historical,not_established,2026-10-04
+role_4e25a1debcf97412,person_a4f60a31cba8d3bf,org_1b1862415f2d9eef,AlphaFold research leader,engineering_leadership,src_829b9621cc17045d,2024-10-09,2024,day,historical,not_established,2026-10-04
+role_17fee00345c89602,person_a0dec2f1a2f4d444,org_4f749de7c24fe967,CEO,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_504e1153dedbe776,person_c5bca6080c9111de,org_4f749de7c24fe967,COO,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_161bb4faef7568b0,person_b4e396579394acdb,org_4f749de7c24fe967,CTO transitioning to Senior Fellow,engineering_leadership,src_ab9d8915d7f55433,2021-09-22,2021,day,historical,not_established,2026-10-04
+role_2d48ccb5dcd61007,person_c1f8c5622f049d7a,org_4f749de7c24fe967,Incoming CTO,engineering_leadership,src_ab9d8915d7f55433,2021-09-22,2021,day,historical,not_established,2026-10-04
+role_0a1a40708e92653f,person_53d3e26281824a0d,org_4f749de7c24fe967,Head of People,talent_leadership,src_7d939ac189435e74,2022-06-01,2022,day,historical,talent_leadership_documented,2026-10-04
+role_c4bc9d3b22d925c6,person_3194cf7d37df54aa,org_4f749de7c24fe967,President Global Affairs,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_3ce04210e8cd729c,person_0b604346550fd893,org_4f749de7c24fe967,Chief Legal Officer,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_779c2d66ab0c7dd0,person_86fd7be874776be5,org_4f749de7c24fe967,Incoming COO,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_098d98e2817baf77,person_9dd7a2ea63a9ba15,org_4f749de7c24fe967,Chief Business Officer,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_018861a074ed313e,person_c0d8da5316c65d55,org_4f749de7c24fe967,Strategic response manager,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_be479d56403554f5,person_c9ea16b41449ab6b,org_4f749de7c24fe967,VP Strategic Response,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_b7650cba93ba5885,person_e6a014c18ceb248a,org_4f749de7c24fe967,Product leadership,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_2b4e487512a9bf6a,person_aa6f924a517fb96e,org_4f749de7c24fe967,Global Operations and Instagram business leader,executive,src_7d939ac189435e74,2022-06-01,2022,day,historical,not_established,2026-10-04
+role_69f5d2d7f7ef7bfe,person_f1442202076bdac9,org_49d2dc07acd9eff5,CEO,engineering_leadership,src_778d7a2017219a51,2024-05-14,2024,day,historical,not_established,2026-10-04
+role_6de134f4e58f23d9,person_ba324af1796fffc9,org_49d2dc07acd9eff5,Outgoing AWS CEO,engineering_leadership,src_778d7a2017219a51,2024-05-14,2024,day,historical,not_established,2026-10-04
+role_b06581c4d99e19ac,person_3219f36b7d2ea2c8,org_49d2dc07acd9eff5,Incoming AWS CEO,engineering_leadership,src_778d7a2017219a51,2024-05-14,2024,day,historical,not_established,2026-10-04
+role_2e2832af16ebd906,person_f1442202076bdac9,org_49d2dc07acd9eff5,CEO,executive,src_c70bc97d438690df,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_e7da3ac181433849,person_8ba72c4e8ba952dc,org_49d2dc07acd9eff5,AI models silicon and quantum computing leader,engineering_leadership,src_c70bc97d438690df,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_f980fa40a0992016,person_ed00733ab333de3d,org_49d2dc07acd9eff5,Frontier model research leader,engineering_leadership,src_c70bc97d438690df,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_ca357854ef83388f,person_e5b56efea3f39b01,org_0890f456684a70f1,Co-founder,founder,src_3ce661bbc7fdca03,2023-09-26,2023,day,founding_identity,not_established,2026-10-04
+role_c0e2f515c2e8a99f,person_74e97e57a126e3a2,org_0890f456684a70f1,Co-founder,founder,src_3ce661bbc7fdca03,2023-09-26,2023,day,founding_identity,not_established,2026-10-04
+role_3c2f1c1d7c1b6ebf,person_54d45fe99116893a,org_0890f456684a70f1,Co-founder,founder,src_3ce661bbc7fdca03,2023-09-26,2023,day,founding_identity,not_established,2026-10-04
+role_087fe6251e5cd102,person_44abef08e3490a40,org_0890f456684a70f1,VP Hyperscale and High Performance Computing,engineering_leadership,src_dc197ebd6fa73428,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_56d1c7c039184621,person_cc26118b9d8bd4d2,org_0890f456684a70f1,Chief Scientist,engineering_leadership,src_ed900537e31c75b7,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_9081f7c86a405463,person_f94186a3813fe70f,org_0890f456684a70f1,Research leader,engineering_leadership,src_dd4d6607280ac89d,2018-09-14,2018,day,historical,not_established,2026-10-04
+role_52d9acf6e6177dac,person_40312b220fbd27be,org_34df123200dc34d6,GPU and graphics research collaborator; employer not established by this source,engineering,src_24ffaf201d38258a,,,unknown,historical,not_established,2026-10-04
+role_02d3fa4992be0286,person_a351b3c284873f6f,org_34df123200dc34d6,GPU and graphics research collaborator; employer not established by this source,engineering,src_24ffaf201d38258a,,,unknown,historical,not_established,2026-10-04
+role_5d3a38d9a1551e2b,person_2bc19cff537ed885,org_34df123200dc34d6,GPU and graphics research collaborator; employer not established by this source,engineering,src_24ffaf201d38258a,,,unknown,historical,not_established,2026-10-04
+role_b56c672c95f12ac7,person_1133080497ec8ca8,org_34df123200dc34d6,GPU and graphics research collaborator; employer not established by this source,engineering,src_24ffaf201d38258a,,,unknown,historical,not_established,2026-10-04
+role_d3f7f041430e5361,person_a8ad230b1ad90a7f,org_f223faa96f229162,Incoming CEO,executive,src_eddf605ff0cd560a,2026-04-20,2026,day,historical,not_established,2026-10-04
+role_ec35f12e50248406,person_a8ad230b1ad90a7f,org_f223faa96f229162,CEO,executive,src_11b59fd8b201a7b6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_767bf9591f01c681,person_a6949a04461b6789,org_f223faa96f229162,SVP Retail and People,talent_leadership,src_11b59fd8b201a7b6,2026-10-04,,checked_day,role_observed,talent_leadership_documented,2026-10-04
+role_1daa81a557fa56b3,person_a8ad230b1ad90a7f,org_f223faa96f229162,CEO,executive,src_b6c66b725a675760,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_ff49012821603bbf,person_436b88d32e7e1d9a,org_f223faa96f229162,SVP Software Engineering,engineering_leadership,src_b6c66b725a675760,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_80885815f18364ed,person_a8ad230b1ad90a7f,org_f223faa96f229162,CEO,executive,src_9ac0e7ba1a071d51,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_a810d52e7227846a,person_a0a0d2b6b3b269e1,org_f223faa96f229162,Chief Hardware Officer,engineering_leadership,src_9ac0e7ba1a071d51,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_018866670b9f3e4b,person_a8ad230b1ad90a7f,org_f223faa96f229162,CEO,executive,src_956d4cc554c4cb6d,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_e8d378e8b13cdea3,person_ce151562c96d24d8,org_f223faa96f229162,SVP Services and Health,executive,src_956d4cc554c4cb6d,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_710798543101621e,person_a8ad230b1ad90a7f,org_f223faa96f229162,CEO,executive,src_7d154b3f15d7178e,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_1544262a00e2855e,person_a5565b509d0e84de,org_f223faa96f229162,COO,executive,src_7d154b3f15d7178e,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_0a4ceacb393e033b,person_5738a37f0af81594,org_f223faa96f229162,CEO,executive,src_363b5bdc64968163,2021-01-25,2021,day,historical,not_established,2026-10-04
+role_42e6f283f31ea656,person_325e6ebbd8d6411d,org_f223faa96f229162,VP Engineering,engineering_leadership,src_363b5bdc64968163,2021-01-25,2021,day,historical,not_established,2026-10-04
+role_8774cd9228a432b6,person_760b08308a87d585,org_f223faa96f229162,COO,executive,src_79f10420b8355151,2019-06-27,2019,day,historical,not_established,2026-10-04
+role_416560dfb0d6c1a7,person_a5565b509d0e84de,org_f223faa96f229162,SVP Operations,executive,src_79f10420b8355151,2019-06-27,2019,day,historical,not_established,2026-10-04
+role_899adb8421b3457a,person_4f998ca6d1c5a332,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_1e1cb1258c6ff3ab,person_5f9b87fa9c5a92b2,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_43476e82514bbaed,person_6b771e2aa3acebd9,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_def376c8b74f6163,person_4694763d3f086481,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_3994e41e826d11c7,person_97316cd8b11489bb,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_6ac5a7ad708493b4,person_0e22d96f08ffceed,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_2ab04cd6d544d8ec,person_8bb2cb5cabc7d632,org_744205e43529c1fc,Co-founder,founder,src_c0f94a4efaca7a84,,,unknown,founding_identity,not_established,2026-10-04
+role_76054d36045a3dee,person_6795df235cf8b141,org_744205e43529c1fc,Chief Technology Officer,engineering_leadership,src_c0f94a4efaca7a84,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_bfcd5ee8695cea1d,person_c292557491ae49c9,org_744205e43529c1fc,Chief People Officer,talent_leadership,src_c0f94a4efaca7a84,2026-10-04,,checked_day,role_observed,talent_leadership_documented,2026-10-04
+role_6195ed0817a46afe,person_f52b3a639f2f16f7,org_8b7d1a3187ab355d,Co-chair,founder,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_ca1394a95836d79e,person_3ea04526627ec61b,org_8b7d1a3187ab355d,CTO,engineering_leadership,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_eff4ad6cbe545bdd,person_233f438867f09700,org_8b7d1a3187ab355d,Research Director,engineering_leadership,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_a4c6e881d81debe5,person_2d1b84ff15276bbd,org_8b7d1a3187ab355d,Founding research engineer,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_58d5e8d053167b7a,person_497f393d816b7f62,org_8b7d1a3187ab355d,Founding research engineer,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_cda53f44685eedb6,person_1475f32d6a90b6df,org_8b7d1a3187ab355d,Founding researcher,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_a02dae0b4b9686d6,person_aa0716a782b5f594,org_8b7d1a3187ab355d,Founding researcher,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_94f5111d960b2fde,person_77236f60b1499ea2,org_8b7d1a3187ab355d,Founding researcher,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_9125ec3f81229984,person_c81b3b40b5d0f055,org_8b7d1a3187ab355d,Founding research engineer,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_f38170e9a2029167,person_b560f136f153d20b,org_8b7d1a3187ab355d,Founding researcher,engineering,src_4dc07095882ddda6,2015-12-11,2015,day,historical,not_established,2026-10-04
+role_614f992956a8917f,person_f52b3a639f2f16f7,org_8b7d1a3187ab355d,CEO,executive,src_65d1ecadfd03b43f,2025-05-07,2025,day,historical,not_established,2026-10-04
+role_ff06f84fcd5996d5,person_56828802ff1337c7,org_8b7d1a3187ab355d,Incoming CEO Applications,executive,src_65d1ecadfd03b43f,2025-05-07,2025,day,historical,not_established,2026-10-04
+role_a7a2c5cefd83035a,person_233f438867f09700,org_ce770667e5f9b0d8,Sequence to sequence research author,engineering,src_61d552395d0f0789,2014-12-14,2014,day,historical,not_established,2026-10-04
+role_f341c496af36cb86,person_a3a869233123e2a7,org_ce770667e5f9b0d8,Sequence to sequence research author,engineering,src_61d552395d0f0789,2014-12-14,2014,day,historical,not_established,2026-10-04
+role_68fe8387dc3bcc8d,person_938002795fbb5444,org_ce770667e5f9b0d8,Sequence to sequence research author,engineering,src_61d552395d0f0789,2014-12-14,2014,day,historical,not_established,2026-10-04
+role_1d6f491323b71715,person_a3265a2eed87b045,org_c7bac46904be785c,"Microsoft Research, ResNet author",engineering,src_523013cf51110acb,,2015,year,historical,not_established,2026-10-04
+role_9a519b654d2567c0,person_dd036c799b5ce840,org_c7bac46904be785c,"Microsoft Research, ResNet author",engineering,src_523013cf51110acb,,2015,year,historical,not_established,2026-10-04
+role_1ce488dd1781c52e,person_74099e4f654dd6f7,org_c7bac46904be785c,"Microsoft Research, ResNet author",engineering,src_523013cf51110acb,,2015,year,historical,not_established,2026-10-04
+role_f9569297b24a2997,person_48e58ac8c5c9e69c,org_c7bac46904be785c,"Microsoft Research, ResNet author",engineering,src_523013cf51110acb,,2015,year,historical,not_established,2026-10-04
+role_0a04c8375e87c6c2,person_a3265a2eed87b045,org_4f749de7c24fe967,"Facebook AI Research, Mask R-CNN author",engineering,src_664bbc784da30eda,,2017,year,historical,not_established,2026-10-04
+role_88e4122e8b7d8794,person_67b910f4944e12a2,org_4f749de7c24fe967,"Facebook AI Research, Mask R-CNN author",engineering,src_664bbc784da30eda,,2017,year,historical,not_established,2026-10-04
+role_5e5ffafa47ca7ff8,person_d7165085de0cd8b7,org_4f749de7c24fe967,"Facebook AI Research, Mask R-CNN author",engineering,src_664bbc784da30eda,,2017,year,historical,not_established,2026-10-04
+role_128a973b92e7c3fe,person_068a90fba998bd84,org_4f749de7c24fe967,"Facebook AI Research, Mask R-CNN author",engineering,src_664bbc784da30eda,,2017,year,historical,not_established,2026-10-04
+role_6a04945e4cbfa151,person_fb03eeda1a953a90,org_f911e414cf6bdfc5,Early developer,engineering,src_7a67ba84a03883ba,2008-05-27,2008,day,historical,not_established,2026-10-04
+role_b85ad7b7fd0e1e18,person_44c40d9499a82f46,org_f911e414cf6bdfc5,Early developer,engineering,src_7a67ba84a03883ba,2008-05-27,2008,day,historical,not_established,2026-10-04
+role_9f4b576160480d3b,person_19c056476e29b992,org_f911e414cf6bdfc5,Early developer,engineering,src_7a67ba84a03883ba,2008-05-27,2008,day,historical,not_established,2026-10-04
+role_9ab46684396b4018,person_0b358aca2a0f2cb1,org_f911e414cf6bdfc5,Early full-time developer,engineering,src_54f2644d168d8641,2008-10-19,2008,day,historical,not_established,2026-10-04
+role_5b741802686516df,person_8d0f7757baa7ec57,org_b9c2dcad6e3c2965,Co-founder,founder,src_4e2ad49621837c9e,2023-12-14,2023,day,founding_identity,not_established,2026-10-04
+role_d645119f8bf943bb,person_0dc58d083e45b222,org_b9c2dcad6e3c2965,Co-founder,founder,src_4e2ad49621837c9e,2023-12-14,2023,day,founding_identity,not_established,2026-10-04
+role_eee5c634edd67c8c,person_6bc1e9253392ff3d,org_b9c2dcad6e3c2965,CEO,executive,src_4e2ad49621837c9e,2023-12-14,2023,day,historical,not_established,2026-10-04
+role_ae19d3c6671b098e,person_a7cff51bd08c6fa2,org_5e7c4d821aae0157,Co-founder,founder,src_3c9cbea096208544,,2017,year,founding_identity,not_established,2026-10-04
+role_7ca893bdeb19b9d8,person_b941d91ee02bc39b,org_5e7c4d821aae0157,Co-founder,founder,src_3c9cbea096208544,,2017,year,founding_identity,not_established,2026-10-04
+role_5a22052078b96579,person_8dd46804ece71ed8,org_5e7c4d821aae0157,Co-founder,founder,src_3c9cbea096208544,,2017,year,founding_identity,not_established,2026-10-04
+role_1606da67f682369f,person_e864e418116bd7c0,org_5e7c4d821aae0157,Co-founder,founder,src_3c9cbea096208544,,2017,year,founding_identity,not_established,2026-10-04
+role_ebce093115b116d8,person_fad36766b6c6da45,org_5e7c4d821aae0157,Schuurmans SpringSource co-founder and board colleague,founder,src_3c9cbea096208544,,2017,year,historical,not_established,2026-10-04
+role_e22c208216983ddc,person_1cf39f64f5d770ee,org_961a6062ba1ba2d8,Co-founder,founder,src_931d0a3831eeecf3,,,unknown,founding_identity,not_established,2026-10-04
+role_fee2881fd9f52a7f,person_9fefd06d24a07c35,org_961a6062ba1ba2d8,Co-founder,founder,src_931d0a3831eeecf3,,,unknown,founding_identity,not_established,2026-10-04
+role_5776c07f4e5b6446,person_7fa8594a90087abc,org_91231ff9ab6685fa,Co-founder,founder,src_f5339ef58fe0ee04,,,unknown,founding_identity,not_established,2026-10-04
+role_aec87563fa57fad2,person_a41f202ef2f3ef5f,org_91231ff9ab6685fa,Co-founder,founder,src_f5339ef58fe0ee04,,,unknown,founding_identity,not_established,2026-10-04
+role_111382caf54d0fce,person_c2824e976bc7bd95,org_91231ff9ab6685fa,Co-founder,founder,src_f5339ef58fe0ee04,,,unknown,founding_identity,not_established,2026-10-04
+role_83437b73d1ccc9e8,person_918d7c17d0c5cd10,org_629b4925e91e03ca,Co-founder,founder,src_e12a91ba769c1bcf,,2019,year,founding_identity,not_established,2026-10-04
+role_5ed679b3cfcc3098,person_5a93baa047242ee2,org_629b4925e91e03ca,Co-founder,founder,src_e12a91ba769c1bcf,,2019,year,founding_identity,not_established,2026-10-04
+role_17931aeb92f66205,person_ce03dff88d7aa65a,org_629b4925e91e03ca,Co-founder,founder,src_e12a91ba769c1bcf,,2019,year,founding_identity,not_established,2026-10-04
+role_04bcb8a62a916527,person_9883d440ca9be8ff,org_f9191531404c4016,Co-founder,founder,src_8efba02fba46cffb,,2018,year,founding_identity,not_established,2026-10-04
+role_d971ba28c5f2bf79,person_60c259ff3a930b35,org_f9191531404c4016,Co-founder,founder,src_8efba02fba46cffb,,2018,year,founding_identity,not_established,2026-10-04
+role_1dc24368f8f60e00,person_16a265c60d8ea38e,org_f9191531404c4016,Co-founder,founder,src_8efba02fba46cffb,,2018,year,founding_identity,not_established,2026-10-04
+role_1cd790caf8856c2d,person_a047315be35b5119,org_8bd7b9fdff699198,Co-founder,founder,src_88a8c8c064f31f78,,,unknown,founding_identity,not_established,2026-10-04
+role_cb1213eb8b146804,person_3140d817c05b5b8e,org_8bd7b9fdff699198,Co-founder,founder,src_88a8c8c064f31f78,,,unknown,founding_identity,not_established,2026-10-04
+role_8180fa199ca3154f,person_8e8f3b93fb195b30,org_1b817f9efc97800a,Co-founder,founder,src_4b781df731ceaa2d,,2025,year,founding_identity,not_established,2026-10-04
+role_2e8923949611f47c,person_805462eedb26a488,org_1b817f9efc97800a,Co-founder,founder,src_4b781df731ceaa2d,,2025,year,founding_identity,not_established,2026-10-04
+role_8468d4390095f8f9,person_df139ebf4b214e32,org_1b817f9efc97800a,Co-founder,founder,src_4b781df731ceaa2d,,2025,year,founding_identity,not_established,2026-10-04
+role_71cc610938c11fe7,person_b9fdad2c91757e02,org_ce46041005a8aa0d,Co-founder,founder,src_6d42fa546ebeb1ca,,2017,year,founding_identity,not_established,2026-10-04
+role_eb3e8c0f658a2dda,person_e74f710ef97453fd,org_ce46041005a8aa0d,Co-founder,founder,src_6d42fa546ebeb1ca,,2017,year,founding_identity,not_established,2026-10-04
+role_f6a7f9dff92446f8,person_4392e7bbb6644f8d,org_ce46041005a8aa0d,COO,engineering_leadership,src_6d42fa546ebeb1ca,,2017,year,historical,not_established,2026-10-04
+role_08dd61daa3ead68f,person_34c69a5edff6a102,org_ce46041005a8aa0d,VP Engineering,engineering_leadership,src_6d42fa546ebeb1ca,,2017,year,historical,not_established,2026-10-04
+role_2058e57164f58573,person_2188dfab4c17267b,org_1dbd59f661d68b90,Co-founder,founder,src_bf4e49580252479e,,,unknown,founding_identity,not_established,2026-10-04
+role_a0f04a003c05ca6d,person_426fdc4e027ae12b,org_1dbd59f661d68b90,Co-founder,founder,src_bf4e49580252479e,,,unknown,founding_identity,not_established,2026-10-04
+role_be58664ba32c8156,person_5b6dc9cd34c55cd1,org_1dbd59f661d68b90,Co-founder,founder,src_f64c969cf2fb43e5,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_2278d5a2df40f95c,person_2ad1c3b880ac9eb4,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_58b6cfa6b9fe166f,person_67a2f8b2f3df9e0a,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_beca6031bcb1b765,person_ab02f2ac2b900994,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_9dde4c4f902ef046,person_4d66f9446bfff866,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_978b61197adc37cc,person_325987c1827d3c73,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_5a4165ad22177bf9,person_084d07b76864b154,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_5daa6e9a19d48a98,person_aae9d23c43100d7e,org_5b5fea64c7467736,Co-founder,founder,src_f5a2cf506ffeeaa6,,,unknown,founding_identity,not_established,2026-10-04
+role_45414807925f5ca0,person_2ad1c3b880ac9eb4,org_5b5fea64c7467736,CEO,engineering_leadership,src_f5a2cf506ffeeaa6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_bc0a1aa087cbd58c,person_67a2f8b2f3df9e0a,org_5b5fea64c7467736,Executive Chair,engineering_leadership,src_f5a2cf506ffeeaa6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_39c0ef391fea1e25,person_ab02f2ac2b900994,org_5b5fea64c7467736,CTO,engineering_leadership,src_f5a2cf506ffeeaa6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_cf4609bda09cc64c,person_4d66f9446bfff866,org_5b5fea64c7467736,VP Engineering,engineering_leadership,src_f5a2cf506ffeeaa6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_0d65c57fff470a38,person_325987c1827d3c73,org_5b5fea64c7467736,Chief Architect,engineering_leadership,src_f5a2cf506ffeeaa6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_7c6dacdd99159524,person_aae9d23c43100d7e,org_5b5fea64c7467736,SVP Field Engineering,engineering_leadership,src_f5a2cf506ffeeaa6,2026-10-04,,checked_day,role_observed,not_established,2026-10-04
+role_69c1f3ebb05f61c5,person_901da57b0d41cf92,org_fe298ed1c2957dd7,Co-founder,founder,src_a7299973e90e9e06,,,unknown,founding_identity,not_established,2026-10-04
+role_b633a70071a4cb39,person_37258487f69f06fc,org_fe298ed1c2957dd7,Co-founder,founder,src_a7299973e90e9e06,,,unknown,founding_identity,not_established,2026-10-04
+role_fe5533f43029813a,person_7688fd8b6ce8b418,org_fe7ceb7816ed0e35,Co-founder,founder,src_5841f373e3338d72,2024-11-22,2024,day,founding_identity,not_established,2026-10-04
+role_038e848a134f43f9,person_b1458cee4f1cf31d,org_fe7ceb7816ed0e35,Co-founder,founder,src_5841f373e3338d72,2024-11-22,2024,day,founding_identity,not_established,2026-10-04
+role_d9e5bc7f66c8c408,person_15422a592b069bad,org_73bcfe98830b53a1,Co-founder,founder,src_788237ffb8ff6af7,2024-03-21,2024,day,founding_identity,not_established,2026-10-04
+role_0a90728e1c8d9937,person_b0b038a8f2d230b3,org_73bcfe98830b53a1,Co-founder,founder,src_788237ffb8ff6af7,2024-03-21,2024,day,founding_identity,not_established,2026-10-04
+role_8ce8e1da8748cd4a,person_a9a4844408cb49ac,org_73bcfe98830b53a1,Co-founder,founder,src_788237ffb8ff6af7,2024-03-21,2024,day,founding_identity,not_established,2026-10-04
+role_835a054f3e5cff5b,person_e99c30159c25dc29,org_e6950b45d25c2027,Co-founder,founder,src_476708dbf8c1a9fd,,,unknown,founding_identity,not_established,2026-10-04
+role_8f232f05dbe12f27,person_855a5afa98c715c6,org_e6950b45d25c2027,Co-founder,founder,src_476708dbf8c1a9fd,,,unknown,founding_identity,not_established,2026-10-04
+role_9d67d2593d5c3303,person_012e0cc0f74b3481,org_e6950b45d25c2027,Co-founder,founder,src_476708dbf8c1a9fd,,,unknown,founding_identity,not_established,2026-10-04
+role_1351b6c30d09e382,person_3fed2a4e15c37c40,org_b63b20d5b5699a25,Co-founder,founder,src_b529bd0ec18801e5,,,unknown,founding_identity,not_established,2026-10-04
+role_03278e2056043cbe,person_0566ca2df3c450e0,org_b63b20d5b5699a25,Co-founder,founder,src_b529bd0ec18801e5,,,unknown,founding_identity,not_established,2026-10-04
+role_6a83178d11dcb22f,person_0154e54c29f38085,org_1d927621f5321e99,Co-founder,founder,src_58f1407947b6727e,,,unknown,founding_identity,not_established,2026-10-04
+role_26a26a2130c60243,person_5781d917a452aff5,org_1d927621f5321e99,Co-founder,founder,src_58f1407947b6727e,,,unknown,founding_identity,not_established,2026-10-04
+role_191234784d8951e4,person_58090f3f9a248e91,org_1d927621f5321e99,Co-founder,founder,src_58f1407947b6727e,,,unknown,founding_identity,not_established,2026-10-04
+role_448b66de23c495df,person_87c33653ee7f55f7,org_2f73335c712c9214,Co-founder,founder,src_1432035095cf5faa,,,unknown,founding_identity,not_established,2026-10-04
+role_80a064a79f3afc0b,person_c4a62348184b5a98,org_2f73335c712c9214,Co-founder,founder,src_1432035095cf5faa,,,unknown,founding_identity,not_established,2026-10-04
+role_e14cf5da7ba699e8,person_11b24152dbd1f5fe,org_2f73335c712c9214,Co-founder,founder,src_1432035095cf5faa,,,unknown,founding_identity,not_established,2026-10-04
+role_857ae63ff695482b,person_7c4a2961be788a20,org_10b92bc0b47eab33,The Full Stack host,engineering_leadership,src_038862cd74c6150f,2026-07-30,2026,day,historical,not_established,2026-10-04
+role_7c62323a5155b15d,person_fa2434f8ea988a57,org_10b92bc0b47eab33,CodeTV creator and judge,engineering_leadership,src_038862cd74c6150f,2026-07-30,2026,day,historical,not_established,2026-10-04
+role_ac4db9b9f58678e3,person_3ce676bd3e770d90,org_f911e414cf6bdfc5,Senior Director Developer Relations,engineering_leadership,src_038862cd74c6150f,2026-07-30,2026,day,historical,not_established,2026-10-04
+role_419a4e6bc1dff70c,person_93ca881347467a9a,org_b9c2dcad6e3c2965,Senior Director Product Management,engineering_leadership,src_ba5d3ee45fd3a974,2020-06-25,2020,day,historical,not_established,2026-10-04
+role_198f6ef75b8f2485,person_9512ea5c4c5c9061,org_b9c2dcad6e3c2965,Developer Advocate,engineering,src_ba5d3ee45fd3a974,2020-06-25,2020,day,historical,not_established,2026-10-04
+role_c8e7bd13e9f1b205,person_8f9f25452ba40554,org_ce770667e5f9b0d8,"Developer Advocate, Google Cloud",engineering,src_e679d8c4a75cd87c,2018-08-23,2018,day,historical,not_established,2026-10-04
+role_89c166f698062787,person_8f9f25452ba40554,org_b9c2dcad6e3c2965,Early engineer and founding technical advocate,engineering,src_e679d8c4a75cd87c,2018-08-23,2018,day,historical,not_established,2026-10-04
+role_e942f8ee36e8ebf5,person_0dc58d083e45b222,org_b9c2dcad6e3c2965,Co-founder who hired and onboarded Seth Vargo,engineering_leadership,src_e679d8c4a75cd87c,2018-08-23,2018,day,historical,historical_hiring_decision_documented,2026-10-04
+role_96147ee2340dbf06,person_8d0f7757baa7ec57,org_b9c2dcad6e3c2965,Co-founder who hired and onboarded Seth Vargo,engineering_leadership,src_e679d8c4a75cd87c,2018-08-23,2018,day,historical,historical_hiring_decision_documented,2026-10-04
+role_b3f9469561e97095,person_f1442202076bdac9,org_49d2dc07acd9eff5,CEO,executive,src_a7f5f2fc3a98a9ad,,2024,year,historical,not_established,2026-10-04
+role_f35625704e50fb47,person_213e2a66e8b5e0a1,org_49d2dc07acd9eff5,SVP People Experience and Technology,talent_leadership,src_a7f5f2fc3a98a9ad,,2024,year,historical,talent_leadership_documented,2026-10-04
