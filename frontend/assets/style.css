@@ -84,3 +84,12 @@ dialog{background:var(--surface);color:var(--ink)}
 .inbox-panel .inbox-item p{margin:0 0 14px}
 #inbox-section{margin-top:20px}
 .inbox-panel + .panel{margin-top:20px}
+/* Jumping between sections */
+section{scroll-margin-top:16px}
+.nav-link{background:transparent;color:var(--ink);padding:8px 4px;font-weight:500;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.nav-link:hover{color:var(--green);filter:none}
+.nav-count{background:var(--green);color:var(--on-green);border-radius:20px;font-size:11px;font-weight:700;min-width:18px;padding:1px 6px;text-align:center}
+.inline-action{background:none;border:0;padding:0;color:var(--green);font:inherit;font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.inline-action:hover{filter:none;opacity:.85}
+@media(max-width:700px){#nav-connections{display:none}.nav-link{padding:8px 2px}}
+@media(max-width:480px){.account-name{display:none}nav{gap:8px}#account-button{padding:9px 12px}.brand{font-size:20px}}

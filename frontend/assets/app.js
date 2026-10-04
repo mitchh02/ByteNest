@@ -3,6 +3,7 @@ const TOKEN_KEY = 'six_degrees_token';
 let user = null;
 let signup = false;
 let searchVersion = 0;
+let resumeSearchAfterSignIn = false;   // set when "Sign in to request an introduction" opens the dialog
 const CLOSENESS_LABELS = { 5: 'Close', 4: 'Worked together', 3: 'Know well', 2: 'Acquaintance', 1: 'Met once' };
 
 // ---------------------------------------------------------------------------
@@ -27,6 +28,27 @@ $('theme-toggle').addEventListener('click', () => {
 });
 darkQuery.addEventListener('change', updateThemeToggle);   // device setting changed
 updateThemeToggle();
+
+/**
+ * Take the user to a section: scroll it into view and, optionally, put the
+ * cursor in a field. Smooth unless the device asks for reduced motion.
+ */
+function goTo(sectionId, focusId) {
+  const section = $(sectionId);
+  if (!section || section.hidden) return;
+  const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  section.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto', block: 'start' });
+  if (focusId) $(focusId)?.focus({ preventScroll: true });
+}
+
+/** A message with a button that takes the user somewhere, e.g. "Add connections". */
+function messageWithAction(id, text, label, onClick) {
+  message(id, text);
+  const button = element('button', label, 'inline-action');
+  button.type = 'button';
+  button.addEventListener('click', onClick);
+  $(id).append(' ', button);
+}
 
 function message(id, text = '', error = false) {
   $(id).textContent = text;
@@ -77,15 +99,20 @@ function setUser(value) {
   $('seeker-field').hidden = Boolean(value);
   resetSeekerLookup();
   updateSeekerMode();
-  $('account-button').textContent = value ? `${value.first_name} · Sign out` : 'Sign in';
+  $('account-button').replaceChildren(...(value
+    ? [element('span', `${value.first_name} · `, 'account-name'), 'Sign out'] : ['Sign in']));
   $('inbox-section').hidden = !value;
   $('inbox').replaceChildren();
   $('connections-section').hidden = !value;
+  $('nav-inbox').hidden = !value;
+  $('nav-connections').hidden = !value;
+  $('nav-inbox-count').hidden = true;
   $('connections').replaceChildren();
   connectedCloseness = new Map();
   message('connection-message');
   resetConnectionForm();
-  if (value) { loadInbox(); loadConnections(); }
+  // Resolves once the inbox and connections have loaded (they change the page layout)
+  return value ? Promise.all([loadInbox(), loadConnections()]) : Promise.resolve();
 }
 
 // ---------------------------------------------------------------------------
@@ -223,8 +250,9 @@ function updateSeekerMode() {
   const byName = $('seeker-mode').value === 'name';
   $('seeker-name-fields').hidden = !byName;
   $('seeker-id-field').hidden = byName;
-  $('seeker-name').required = !user && byName;
-  $('seeker').required = !user && !byName;
+  // Not marked required: runSearch checks it, explains, and jumps to the field
+  $('seeker-name').required = false;
+  $('seeker').required = false;
 }
 
 const seekerPicker = personAutocomplete({
@@ -256,7 +284,7 @@ $('account-button').addEventListener('click', () => {
     message('search-message');
   } else $('account-dialog').showModal();
 });
-$('close-account').addEventListener('click', () => $('account-dialog').close());
+$('close-account').addEventListener('click', () => { resumeSearchAfterSignIn = false; $('account-dialog').close(); });
 $('toggle-account').addEventListener('click', () => setSignupMode(!signup));
 function setSignupMode(value) {
   signup = value;
@@ -295,18 +323,24 @@ $('account-form').addEventListener('submit', async (event) => {
     }
     const data = await request(creating ? '/auth/signup' : '/auth/login', body);
     localStorage.setItem(TOKEN_KEY, data.token);
-    setUser(data.user);
+    const loaded = setUser(data.user);
     $('account-form').reset();
     $('open-role-field').hidden = true;
     if (creating) setSignupMode(false);   // next time the dialog opens, it's on sign in
     $('account-dialog').close();
     if (creating) {
       message('connection-message', `Welcome, ${user.first_name}! Add a few people you know so we can find paths for you.`);
-      $('connections-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
-      $('connection-name').focus({ preventScroll: true });
+      goTo('connections-section', 'connection-name');
     } else {
-      message('search-message', `Welcome, ${user.first_name}. Search for a role or hiring manager to explore your connections.`);
+      if (resumeSearchAfterSignIn && $('query').value.trim()) {
+        await loaded;                                  // so the results don't move after we scroll
+        runSearch({ reveal: true });                   // they were trying to request an introduction
+      } else {
+        message('search-message', `Welcome, ${user.first_name}. Search for a role or hiring manager to explore your connections.`);
+        goTo('search-section', 'query');
+      }
     }
+    resumeSearchAfterSignIn = false;
   } catch (error) { message('account-message', error.message, true); }
   finally { $('account-submit').disabled = false; $('toggle-account').disabled = false; }
 });
@@ -496,7 +530,7 @@ function renderResult(result, seekerId) {
   const status = element('p', undefined, 'message');
   status.setAttribute('role', 'status');
   button.addEventListener('click', async () => {
-    if (!user) { $('account-dialog').showModal(); return; }
+    if (!user) { resumeSearchAfterSignIn = true; $('account-dialog').showModal(); return; }
     if (user.id !== seekerId) return;
     button.disabled = true;
     try {
@@ -519,12 +553,16 @@ function renderResult(result, seekerId) {
  *   live:      triggered by typing (quieter: no error when no start person is chosen)
  *   type:      force 'role' / 'manager' / 'all' (defaults to the selected chip)
  *   managerId: one specific person, after picking them from the suggestions
+ *   reveal:    scroll to the results when they arrive (on for clicks, off while typing)
  */
-async function runSearch({ live = false, type = searchType(), managerId = pickedManager?.id } = {}) {
+async function runSearch({ live = false, reveal = !live, type = searchType(), managerId = pickedManager?.id } = {}) {
   const seekerId = currentSeekerId();
   const query = $('query').value.trim();
   if (!seekerId) {
-    if (!live) message('seeker-message', 'Find and choose a user before searching.', true);
+    if (!live) {
+      message('seeker-message', 'Choose who to start from first.', true);
+      goTo('search-section', $('seeker-mode').value === 'name' ? 'seeker-name' : 'seeker');
+    }
     return;
   }
   if (!query) { if (!live) message('search-message', 'Type a role or a person\'s name to search for.', true); return; }
@@ -543,10 +581,14 @@ async function runSearch({ live = false, type = searchType(), managerId = picked
     const what = managerId ? `${pickedManager?.name ?? 'that person'} isn't` :
       type === 'role' ? 'No connected hiring managers for that role are' :
       type === 'manager' ? 'No hiring managers with that name are' : 'No matching roles or hiring managers are';
-    message('search-message', data.results.length ? '' : `${what} reachable within six introductions. Try another search, or add more connections.`);
+    if (data.results.length) message('search-message');
+    else if (user) messageWithAction('search-message', `${what} reachable within six introductions. Try another search, or`,
+      'add more connections', () => goTo('connections-section', 'connection-name'));
+    else message('search-message', `${what} reachable within six introductions. Try another search or start from someone else.`);
     $('results-section').hidden = !data.results.length;
     $('results-count').textContent = `${data.results.length} ${data.results.length === 1 ? 'path' : 'paths'} found`;
     $('results').replaceChildren(...data.results.map((result) => renderResult(result, seekerId)));
+    if (reveal && data.results.length) goTo('results-section');
   } catch (error) {
     if (version === searchVersion) message('search-message', error.message, true);
   } finally {
@@ -664,6 +706,8 @@ async function loadInbox() {
     message('inbox-message', items.length ? '' : 'No introductions waiting for you right now.');
     $('inbox-count').hidden = !items.length;
     $('inbox-count').textContent = `${items.length} waiting`;
+    $('nav-inbox-count').hidden = !items.length;
+    $('nav-inbox-count').textContent = String(items.length);
     $('inbox-section').classList.toggle('has-items', items.length > 0);
     $('inbox').replaceChildren(...items.map((item) => {
       const card = element('article', undefined, 'inbox-item');
@@ -689,6 +733,8 @@ async function loadInbox() {
   } catch (error) { if (user?.id === owner) message('inbox-message', error.message, true); }
 }
 $('refresh-inbox').addEventListener('click', loadInbox);
+$('nav-inbox').addEventListener('click', () => goTo('inbox-section'));
+$('nav-connections').addEventListener('click', () => goTo('connections-section', 'connection-name'));
 
 if (localStorage.getItem(TOKEN_KEY)) {
   $('account-button').disabled = true;
