@@ -74,3 +74,13 @@ fieldset small{max-width:none}
 @media(prefers-color-scheme:dark){:root:not([data-theme]) .theme-toggle .icon-sun{display:block}:root:not([data-theme]) .theme-toggle .icon-moon{display:none}}
 dialog{background:var(--surface);color:var(--ink)}
 @media(max-width:700px){.theme-toggle{width:36px;height:36px}nav{gap:10px}}
+/* Inbox, directly under the search panel */
+.inbox-panel{margin-top:20px;padding:22px 28px}
+.inbox-panel .section-heading{margin-bottom:6px}
+.inbox-panel.has-items{border-color:var(--tint-line);box-shadow:0 0 0 3px var(--tint)}
+.inbox-panel .message{margin:6px 0 0}
+.inbox-tools{display:flex;align-items:center;gap:10px}
+.inbox-panel .inbox-item{background:var(--tint);border-color:var(--tint-line);padding:18px 20px;margin-top:12px}
+.inbox-panel .inbox-item p{margin:0 0 14px}
+#inbox-section{margin-top:20px}
+.inbox-panel + .panel{margin-top:20px}

@@ -661,7 +661,10 @@ async function loadInbox() {
   try {
     const items = await request(`/inbox/${owner}`);
     if (user?.id !== owner) return;
-    message('inbox-message', items.length ? '' : 'No introductions waiting for you.');
+    message('inbox-message', items.length ? '' : 'No introductions waiting for you right now.');
+    $('inbox-count').hidden = !items.length;
+    $('inbox-count').textContent = `${items.length} waiting`;
+    $('inbox-section').classList.toggle('has-items', items.length > 0);
     $('inbox').replaceChildren(...items.map((item) => {
       const card = element('article', undefined, 'inbox-item');
       card.append(element('p', item.message));
