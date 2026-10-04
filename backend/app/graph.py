@@ -27,6 +27,11 @@ BATCH_SIZE = 1000   # max ids per SQL "IN (...)" list, so queries stay a reasona
 
 def _edges_touching(user_ids):
     """Fetch every connection where at least one of the two people is in user_ids."""
+    import random # simulating cache misses
+    import time
+
+    CACHE_MISS_PROB = 0.05
+  
     ids = list(user_ids)
     rows = []
 
@@ -46,6 +51,9 @@ def _edges_touching(user_ids):
                 WHERE user_a_id IN ({marks}) OR user_b_id IN ({marks})""",
             batch + batch,
         )
+        if random.random() < CACHE_MISS_PROB:
+          time.sleep(5)
+          
     return rows
 
 
