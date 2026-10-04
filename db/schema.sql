@@ -30,7 +30,8 @@ CREATE TABLE user_contacts (
   value         VARCHAR(255) NOT NULL,
   is_public     BOOLEAN      NOT NULL DEFAULT FALSE,  -- private until an intro is accepted
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-  UNIQUE KEY uq_contact (user_id, contact_type, value)
+  INDEX idx_contacts_user (user_id),
+  UNIQUE KEY uq_contact_value (contact_type, value)
 );
 
 -- Connections: one row per pair, stored with the smaller id first
