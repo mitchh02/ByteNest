@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routes import intros, search
+from .routes import auth, intros, search
 
 app = FastAPI(title="Six Degrees Hiring API")
 
@@ -16,6 +16,7 @@ app.add_middleware(
 
 app.include_router(search.router)
 app.include_router(intros.router)
+app.include_router(auth.router)
 
 @app.get("/health")
 def health():
